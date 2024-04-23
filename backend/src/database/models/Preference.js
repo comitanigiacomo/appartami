@@ -1,4 +1,3 @@
-// database/models/Preference.js
 const mongoose = require('mongoose');
 
 const preferenceSchema = new mongoose.Schema({
