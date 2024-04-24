@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
+const UserController = require('../controllers/UserController');
 
-// route per la creazione di un nuovo utente
-router.post('/users', userController.createUser);
+// Route per la registrazione degli utenti
+router.post('/register', UserController.registerUser);
+
+// Route per il login degli utenti
+router.post('/login', UserController.loginUser);
 
 module.exports = router;
