@@ -4,10 +4,9 @@ const app = express();
 
 const PORT = process.env.PORT || 8080; 
 
-// Importa le routes
-//const userRoutes = require('./routes/userRoutes.js');
-//const apartmentRoutes = require('./routes/apartmentRoutes.js');
-//const preferenceRoutes = require('./routes/preferenceRoutes');
+const userRoutes = require('./routes/userRoutes.js');
+const apartmentRoutes = require('./routes/apartmentRoutes.js');
+const preferenceRoutes = require('./routes/preferenceRoutes.js');
 
 //Connessione al database: 
 connectToMongoDB()
@@ -16,10 +15,9 @@ connectToMongoDB()
     // Middleware per il parsing del corpo delle richieste
     app.use(express.json());
 
-    // Collega le routes all'applicazione Express
     app.use('/api/users', userRoutes);
-    //app.use('/api/apartments', apartmentRoutes);
-    //app.use('/api/preferences', preferenceRoutes);
+    app.use('/api/preferences', preferenceRoutes);
+    app.use('/api/apartments', apartmentRoutes)
 
     // Esegui il server Express solo dopo aver stabilito la connessione al database
     app.listen(PORT, () => {
