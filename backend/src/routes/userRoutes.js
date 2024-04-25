@@ -11,4 +11,7 @@ router.post('/login', UserController.loginUser);
 // Route per l'eliminazione degli utenti
 router.delete('/delete/:id', UserController.deleteUser);
 
+// Route per restituire tutti gli utenti
+router.get('/getUsers', UserController.getUsers);
+
 module.exports = router;
