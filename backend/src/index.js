@@ -16,6 +16,7 @@ connectToMongoDB()
     // Middleware per il parsing del corpo delle richieste
     app.use(express.json());
 
+    
     app.use('/api/users', userRoutes);
     app.use('/api/preferences', preferenceRoutes);
     app.use('/api/apartments', apartmentRoutes)

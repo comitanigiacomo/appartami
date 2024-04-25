@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ApartmentController = require('../controllers/ApartmentController');
+const ApartmentController = require('../controllers/apartmentController');
 
 // Ottiene tutti gli appartamenti
 router.get('/', ApartmentController.getAllApartments);
@@ -9,7 +9,7 @@ router.get('/', ApartmentController.getAllApartments);
 router.get('/:id', ApartmentController.getApartmentById);
 
 // Aggiunge un nuovo appartamento
-router.post('/', ApartmentController.addApartment);
+router.post('/', ApartmentController.createApartment);
 
 // Aggiorna un appartamento
 router.put('/:id', ApartmentController.updateApartment);
