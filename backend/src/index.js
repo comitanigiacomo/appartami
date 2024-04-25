@@ -3,6 +3,7 @@ const express = require("express");
 const userRoutes = require('./routes/userRoutes.js');
 const apartmentRoutes = require('./routes/apartmentRoutes.js');
 const preferenceRoutes = require('./routes/preferenceRoutes.js');
+const userDistributionRoutes = require('./routes/userDistributionRoutes.js');
 
 const { connectToMongoDB } = require('./database/config.js');
 const app = express(); 
@@ -16,10 +17,11 @@ connectToMongoDB()
     // Middleware per il parsing del corpo delle richieste
     app.use(express.json());
 
-    
+
     app.use('/api/users', userRoutes);
     app.use('/api/preferences', preferenceRoutes);
-    app.use('/api/apartments', apartmentRoutes)
+    app.use('/api/apartments', apartmentRoutes);
+    app.use('/api/user-distribution', userDistributionRoutes);
 
     // Esegui il server Express solo dopo aver stabilito la connessione al database
     app.listen(PORT, () => {
