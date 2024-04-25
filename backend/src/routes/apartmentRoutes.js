@@ -3,18 +3,18 @@ const router = express.Router();
 const ApartmentController = require('../controllers/apartmentController');
 
 // Ottiene tutti gli appartamenti
-router.get('/', ApartmentController.getAllApartments);
+router.get('/get', ApartmentController.getAllApartments);
 
 // Ottiene un appartamento per ID
-router.get('/:id', ApartmentController.getApartmentById);
+router.get('/get/:id', ApartmentController.getApartmentById);
 
 // Aggiunge un nuovo appartamento
-router.post('/', ApartmentController.createApartment);
+router.post('/create', ApartmentController.createApartment);
 
 // Aggiorna un appartamento
-router.put('/:id', ApartmentController.updateApartment);
+router.put('/update/:id', ApartmentController.updateApartment);
 
 // Elimina un appartamento
-router.delete('/:id', ApartmentController.deleteApartment);
+router.delete('/delete/:id', ApartmentController.deleteApartment);
 
 module.exports = router;

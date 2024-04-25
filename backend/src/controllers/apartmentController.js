@@ -25,11 +25,12 @@ const getApartmentById = async (req, res) => {
 
 // Crea un nuovo appartamento
 const createApartment = async (req, res) => {
-    const {name, location, numberOfBeds } = req.body;
+    const {name, location, numberOfBeds, people } = req.body;
     const newApartment = new Apartment({
         name,
         location,
-        numberOfBeds
+        numberOfBeds,
+        people
     });
 
     try {
@@ -40,14 +41,23 @@ const createApartment = async (req, res) => {
     }
 }
 
-// Aggiorna un appartamento
+// Aggiorna le persone all'interno di un appartamento
 const updateApartment = async (req, res) => {
     try {
         const { id } = req.params;
-        const updatedApartment = await Apartment.findByIdAndUpdate(id, req.body, { new: true });
+        const { people } = req.body;
+
+        // Trova l'appartamento per ID e aggiorna solo il campo delle persone
+        const updatedApartment = await Apartment.findByIdAndUpdate(
+            id,
+            { people: people },
+            { new: true }
+        );
+
         if (!updatedApartment) {
             return res.status(404).json({ message: 'Apartment not found' });
         }
+
         res.json(updatedApartment);
     } catch (error) {
         res.status(400).json({ message: error.message });
