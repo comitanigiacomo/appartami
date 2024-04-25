@@ -1,4 +1,4 @@
-const Preference = require('../models/Preference');
+const Preference = require('../database/models/Preference');
 
 // Ottiene le preferenze
 exports.getPreferences = async (req, res) => {

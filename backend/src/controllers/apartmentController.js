@@ -1,4 +1,4 @@
-const Apartment = require('../models/Apartment');
+const Apartment = require('../database/models/Apartment');
 
 // Ottieni tutti gli appartamenti
 const getAllApartments = async (req, res) => {
