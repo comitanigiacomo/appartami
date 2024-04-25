@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const preferenceSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Campo user con l'ID dell'utente
   positivePreferences: [{ type: String }],
   negativePreferences: [{ type: String }],
 });
