@@ -6,6 +6,13 @@ const preferenceSchema = new mongoose.Schema({
   negativePreferences: [{ type: String }],
 });
 
+preferenceSchema.path('positivePreferences').validate(arrayLimit, 'Too many positive preferences provided');
+preferenceSchema.path('negativePreferences').validate(arrayLimit, 'Too many negative preferences provided');
+
+function arrayLimit(val) {
+  return val.length <= 2;
+}
+
 const Preference = mongoose.model('Preference', preferenceSchema);
 
 module.exports = Preference;
