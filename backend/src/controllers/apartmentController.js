@@ -20,7 +20,7 @@ const getApartmentById = async (req, res) => {
         res.json(apartment);
     } catch (error) {
         res.status(500).json({ message: error.message });
-    }
+    }                                                   
 }
 
 // Crea un nuovo appartamento
