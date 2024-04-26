@@ -13,4 +13,8 @@ router.delete('/delete/:id', PreferenceController.deletePreference);
 
 // Aggiorna una preferenza
 router.put('/update/:id', PreferenceController.updatePreference);
+
+// Cancella tutte le preferenze
+router.delete('/deleteAll', PreferenceController.deletePreferences);
+
 module.exports = router;

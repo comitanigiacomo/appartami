@@ -88,3 +88,19 @@ exports.updatePreference = async (req, res) => {
   }
 };
 
+
+// Delete all Preferences
+exports.deletePreferences = async (req, res) => {
+  try {
+    // Cancella tutte le preferenze dal database
+    await Preference.deleteMany({});
+
+    res.status(200).json({ message: 'All preferences deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to delete preferences' });
+  }
+};
+
+
+
