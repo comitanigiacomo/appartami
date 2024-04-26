@@ -21,7 +21,7 @@ connectToMongoDB()
     app.use('/api/users', userRoutes);
     app.use('/api/preferences', preferenceRoutes);
     app.use('/api/apartments', apartmentRoutes);
-    app.use('/api/user-distribution', userDistributionRoutes);
+    app.use('/api', userDistributionRoutes);
 
     // Esegui il server Express solo dopo aver stabilito la connessione al database
     app.listen(PORT, () => {

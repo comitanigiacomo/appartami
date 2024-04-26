@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const UserDistributionController = require('../controllers/userDistributionController');
+const userDistributionController = require('../controllers/userDistributionController');
 
-// Route per la distribuzione degli utenti negli appartamenti
-router.post('/distribute', UserDistributionController.distributeUsers);
+// Route per distribuire gli utenti negli appartamenti
+router.post('/distribute-users', userDistributionController.distribute);
 
 module.exports = router;
