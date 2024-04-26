@@ -17,4 +17,7 @@ router.put('/update/:id', ApartmentController.updateApartment);
 // Elimina un appartamento
 router.delete('/delete/:id', ApartmentController.deleteApartment);
 
+// Aggiorna tutti gli appartamenti
+router.put('/updateAll', ApartmentController.updateApartments);
+
 module.exports = router;

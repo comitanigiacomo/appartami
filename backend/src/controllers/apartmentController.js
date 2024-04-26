@@ -64,6 +64,26 @@ const updateApartment = async (req, res) => {
     }
 }
 
+
+const updateApartments = async (req, res) => {
+    try {
+        const { people } = req.body;
+
+        // Aggiorna tutti gli appartamenti nel sistema con il numero di persone fornito
+        const result = await Apartment.updateMany({}, { people: people });
+
+        if (result.nModified === 0) {
+            return res.status(404).json({ message: 'No apartments found' });
+        }
+
+        res.json({ message: 'All apartments updated successfully' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+
+
 // Cancella un appartamento
 const deleteApartment = async (req, res) => {
     try {
@@ -83,5 +103,6 @@ module.exports = {
     getApartmentById,
     createApartment,
     updateApartment,
+    updateApartments,
     deleteApartment
 };
