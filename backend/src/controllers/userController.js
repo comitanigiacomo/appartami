@@ -1,13 +1,28 @@
 const User = require('../database/models/User');
+const bcrypt = require('bcryptjs');
 
 // Controller per la registrazione degli utenti
 exports.registerUser = async (req, res) => {
   try {
-    const newUser = new User(req.body);
+    const { username, password } = req.body;
+
+    // Verifica se l'utente esiste già nel database
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Username already exists' });
+    }
+
+    // Hash della password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Crea un nuovo utente con la password hashata
+    const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
+
+    // Invia una risposta di conferma
     res.status(201).json({ message: 'User registered successfully', user: newUser });
   } catch (error) {
-    console.log(error)
+    console.error('Error during user registration:', error);
     res.status(500).json({ error: 'Failed to register user' });
   }
 };
