@@ -2,112 +2,99 @@ const User = require('../database/models/User');
 const Preference = require('../database/models/Preference');
 const Apartment = require('../database/models/Apartment');
 
-// Funzione per distribuire gli utenti negli appartamenti
 exports.distribute = async (req, res) => {
     try {
-        // Ottieni tutti gli utenti e le preferenze
-        const users = await User.find();
-        const preferences = await Preference.find().populate('user');
-        const apartments = await Apartment.find();
+        const users = await User.find().lean();
+        const preferences = await Preference.find().populate('user').lean();
+        let apartments = await Apartment.find().lean();
 
-        // Inizializza una mappa per tenere traccia degli appartamenti e dei loro occupanti
-        const apartmentOccupantsMap = new Map(apartments.map(apartment => [apartment._id.toString(), []]));
+        let bestConfiguration = null;
+        let bestScore = -Infinity;
 
-        // Distribuisci gli utenti negli appartamenti
-        let allUsersDistributed = false;
-
-        console.log('Starting user distribution...');
-
-        // Mantieni traccia degli utenti che non sono ancora stati distribuiti
-        let remainingUsers = [...users];
-
-        while (!allUsersDistributed) {
-            allUsersDistributed = true;
-
-            // Loop su tutti gli utenti rimanenti
-            for (const user of remainingUsers) {
-                // Verifica se l'utente è già stato distribuito
-                const isUserDistributed = [...apartmentOccupantsMap.values()].flat().includes(user.username);
-
-                // Se l'utente non è ancora stato distribuito, assegnalo
-                if (!isUserDistributed) {
-                    // Trova le preferenze dell'utente corrente
-                    const userPreference = preferences.find(preference => preference.user.toString() === user._id.toString());
-
-                    // Trova altri utenti con preferenza reciproca
-                    const mutualPreferenceUsers = remainingUsers.filter(u => {
-                        const uPreference = preferences.find(preference => preference.user.toString() === u._id.toString());
-                        return uPreference && uPreference.positivePreferences[0] === user.username && userPreference.positivePreferences[0] === u.username;
-                    });
-
-                    // Se ci sono preferenze reciproche, assegna gli utenti allo stesso appartamento
-                    if (mutualPreferenceUsers.length > 0) {
-                        for (const mutualUser of mutualPreferenceUsers) {
-                            const mutualPreferenceApartment = [...apartmentOccupantsMap.entries()].find(([_, occupants]) => occupants.some(occupant => {
-                                const occupantPreference = preferences.find(preference => preference.user.toString() === users.find(u => u.username === occupant)._id.toString());
-                                return occupantPreference && occupantPreference.positivePreferences[0] === mutualUser.username;
-                            }));
-                            if (mutualPreferenceApartment) {
-                                apartmentOccupantsMap.get(mutualPreferenceApartment[0]).push(mutualUser.username);
-                            } else {
-                                allUsersDistributed = false;
-                                break;
-                            }
-                        }
-                    } else {
-                        // Trova l'appartamento con il minor numero di non preferenze, o in caso di parità, uno casuale
-                        let selectedApartment = null;
-                        let minNonPreferencesCount = Infinity;
-
-                        for (const apartment of apartments) {
-                            const nonPreferencesCount = apartment.people.reduce((count, occupant) => {
-                                const occupantPreference = preferences.find(preference => preference.user.toString() === users.find(u => u.username === occupant)._id.toString());
-                                return occupantPreference ? count + occupantPreference.negativePreferences.filter(preference => user.username === preference || userPreference.negativePreferences.includes(preference)).length : count;
-                            }, 0);
-
-                            if (nonPreferencesCount < minNonPreferencesCount) {
-                                selectedApartment = apartment;
-                                minNonPreferencesCount = nonPreferencesCount;
-                            } else if (nonPreferencesCount === minNonPreferencesCount && Math.random() < 0.5) {
-                                selectedApartment = apartment;
-                            }
-                        }
-
-                        // Verifica se l'appartamento ha ancora posti letto disponibili
-                        if (selectedApartment && apartmentOccupantsMap.get(selectedApartment._id.toString()).length < selectedApartment.numberOfBeds) {
-                            // Assegna l'utente all'appartamento selezionato
-                            apartmentOccupantsMap.get(selectedApartment._id.toString()).push(user.username);
-                        } else {
-                            // Se non è possibile assegnare l'utente all'appartamento desiderato, gestisci la situazione
-                            // come descritto nelle specifiche
-                            // ...
-                        }
-                    }
-
-                    // Rimuovi l'utente dall'array degli utenti rimanenti solo se è stato distribuito
-                    if ([...apartmentOccupantsMap.values()].flat().includes(user.username)) {
-                        remainingUsers = remainingUsers.filter(u => u.username !== user.username);
+        // Trova e assegna le coppie degli utenti che hanno la prima preferenza reciproca
+        const couples = [];
+        for (const user of users) {
+            const userPreference = preferences.find(preference => preference.user.toString() === user._id.toString());
+            if (userPreference && userPreference.positivePreferences.length > 0) {
+                const otherUser = users.find(u => {
+                    const uPreference = preferences.find(preference => preference.user.toString() === u._id.toString());
+                    return uPreference && uPreference.positivePreferences[0] === user.username && userPreference.positivePreferences[0] === u.username;
+                });
+                if (otherUser) {
+                    const couple = [user.username, otherUser.username];
+                    couples.push(couple);
+                    const apartment = apartments.find(apartment => apartment.name === userPreference.positivePreferences[0]);
+                    if (apartment && apartment.people.length < apartment.numberOfBeds) {
+                        apartment.people.push(...couple);
                     }
                 }
             }
+        }
 
-            // Verifica se ci sono ancora utenti rimanenti da distribuire
-            if (remainingUsers.length > 0) {
-                allUsersDistributed = false;
+        // Esegui 10.000 iterazioni
+        for (let i = 0; i < 10000; i++) {
+            // Svuota gli appartamenti
+            for (const apartment of apartments) {
+                apartment.people = [];
+            }
+
+            // Riempi gli appartamenti con le coppie predefinite
+            for (const couple of couples) {
+                const apartment = apartments.find(apartment => apartment.name === couple[0]);
+                if (apartment && apartment.people.length < apartment.numberOfBeds) {
+                    apartment.people.push(...couple);
+                }
+            }
+
+            // Distribuisci gli utenti rimanenti negli appartamenti
+            for (const user of users) {
+                const randomApartment = apartments[Math.floor(Math.random() * apartments.length)];
+                if (!randomApartment.people.includes(user.username) && randomApartment.people.length < randomApartment.numberOfBeds) {
+                    randomApartment.people.push(user.username);
+                }
+            }
+
+            // Calcola il punteggio medio degli appartamenti
+            let totalScore = 0;
+            for (const apartment of apartments) {
+                let apartmentScore = 0;
+                for (const occupant of apartment.people) {
+                    const occupantPreference = preferences.find(preference => preference.user.toString() === users.find(u => u.username === occupant)._id.toString());
+                    if (occupantPreference) {
+                        if (occupantPreference.positivePreferences.includes(occupant)) {
+                            apartmentScore += 5;
+                        }
+                        if (occupantPreference.negativePreferences.includes(occupant)) {
+                            apartmentScore -= 1;
+                        }
+                    }
+                }
+                totalScore += apartmentScore;
+            }
+
+            // Calcola il punteggio medio
+            const averageScore = totalScore;
+
+            // Verifica se questa configurazione ha un punteggio medio migliore
+            if (averageScore > bestScore) {
+                bestScore = averageScore;
+                bestConfiguration = JSON.parse(JSON.stringify(apartments)); // Copia profonda della configurazione
             }
         }
 
-        console.log('Finished user distribution loop.');
+        // Prepara le operazioni di aggiornamento degli appartamenti
+        const bulkUpdateOperations = bestConfiguration.map(apartment => ({
+            updateOne: {
+                filter: { _id: apartment._id },
+                update: { people: apartment.people }
+            }
+        }));
 
-        // Aggiorna gli appartamenti nel database con i nuovi occupanti
-        for (const [apartmentId, occupants] of apartmentOccupantsMap.entries()) {
-            await Apartment.findByIdAndUpdate(apartmentId, { people: occupants });
-        }
-
-        console.log('User distribution completed successfully');
+        // Aggiorna gli appartamenti nel database con la migliore configurazione
+        await Apartment.bulkWrite(bulkUpdateOperations);
 
         // Ottieni gli appartamenti aggiornati
-        const updatedApartments = await Apartment.find();
+        const updatedApartments = await Apartment.find().lean();
 
         // Invia la risposta contenente gli appartamenti popolati
         res.status(200).json({ message: 'User distribution completed successfully', apartments: updatedApartments });
