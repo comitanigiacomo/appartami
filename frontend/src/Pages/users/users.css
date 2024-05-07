@@ -20,11 +20,14 @@ main {
 .g-4 .col{
     display: flex;
     align-items: center;
-    justify-content: center;;
+    justify-content: center;
 }
 
 .userCards img {
     padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .userCards .card-body,
