@@ -1,33 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import UserCard from '../../Components/UserCard'
-import './users.css'
+import UsersGridCards from '../../Components/UsersGridCards';
+import './users.css';
 
-export function Users(){
+export function Users() {
+  const [users, setUsers] = useState([]);
 
-    const [users, setUsers] = useState([])
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('/api/users/getUsers');
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        console.error('Errore nel recupero degli utenti:', error);
+      }
+    };
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await fetch('/api/users/getUsers');
-                const data = await response.json();
-                setUsers(data);
-            } catch (error) {
-                console.error('Errore nel recupero degli utenti:', error);
-            }
-        };
-    
-        fetchUsers();
-    }, []);
+    fetchUsers();
+  }, []);
 
-    return (
-        <>
-            <h1>Lista Utenti</h1>
-            <ul>
-                {users.map((user) => (
-                     <UserCard key={user.username} user={user} />
-                ))}
-            </ul>
-        </>
-    );
+  return (
+    <>
+      <div className="listaUtenti">
+        <h1><p>Lista Utenti</p></h1>
+      </div>
+      <div className="userCards">
+        <UsersGridCards users={users} />
+      </div>
+    </>
+  );
 }
+
