@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import UserCard from '../../Components/UserCard'
+import './users.css'
 
 export function Users(){
 
@@ -17,13 +19,13 @@ export function Users(){
     
         fetchUsers();
     }, []);
-    
+
     return (
         <>
             <h1>Lista Utenti</h1>
             <ul>
                 {users.map((user) => (
-                    <li key={user.username}>{user.password}</li>
+                     <UserCard key={user.username} user={user} />
                 ))}
             </ul>
         </>
