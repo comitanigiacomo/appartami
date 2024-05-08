@@ -1,11 +1,10 @@
-import Button from 'react-bootstrap/Button';
+import React from "react"
 
-export function Header () {
+export function Header() {
     return (
-        <>
-        <img></img>
-        <Button variant="outline-light">Light</Button>{' '}
-        <Button variant="outline-light">Light</Button>{' '}
-        </>
+        <div className='header'>
+            <h1>Disposizione utenti per <span style={{color: 'rgb(0, 150, 255)'}}>compagnie</span></h1>
+            <p>Disposizione efficiente</p>
+        </div>
     )
 }

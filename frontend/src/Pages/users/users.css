@@ -16,15 +16,10 @@ main div {
 }
 
 main .userCards {
-    margin-inline: 50px;;
+    margin: 250px;
 }
 
-main .userCards .g-4 .col {
-    /*centra gli elementi all'interno delle cards*/
-    display: flex;
-    /*diminuisce il margine tra una cards e l'altra*/
-    margin-inline: -50px;
-}
+
 
 main .userCards .g-4 .card-body{
     color: white;
@@ -32,5 +27,14 @@ main .userCards .g-4 .card-body{
 
 main .userCards .g-4 .card-img-top{
     padding: 40px;
+}
+
+main .userCards .col .card {
+    margin: auto;
+}
+
+main .userCards .g-4 {
+    display: flex;
+    align-items: center;
 }
 

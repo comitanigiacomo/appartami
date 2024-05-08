@@ -8,14 +8,13 @@ export function NavComp() {
       <>
       <Navbar sticky="top" bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <Navbar.Brand href="#/">Appartami</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#/">Home</Nav.Link>
             <Nav.Link href="#users">Users</Nav.Link>
             <Nav.Link href="#userProfile">UserProfile</Nav.Link>
           </Nav>
           <Nav>
-            <Button href="#signIn" variant="outline-light">Sign in</Button>{' '}
+            <Button href="#signIn" variant="primary">Sign in</Button>{' '}
             <Button href="#signUp" variant="outline-light">Sign up</Button>{' '}
           </Nav>
         </Container>

@@ -1,13 +1,21 @@
 import React from 'react'
+import {CarouselComp} from '../../Components/CarouselComp'
+import { Buttons } from '../../Components/Buttons'
 import { Header } from '../../Components/Header'
-import { CarouselComp } from '../../Components/CarouselComp'
+import Testimonials from '../../Components/Testimonials'
 import './home.css'
 
-export function Home () {
+export function Home() {
   return (
-    <div className="main">
-      <CarouselComp />
-      <Header />
+    <div>
+      <div className='content1'>
+         <Header />
+         <Buttons />
+         <CarouselComp />
+      </div>
+      <div className='testimonials'>
+         <Testimonials />
+      </div>
     </div>
   )
 }

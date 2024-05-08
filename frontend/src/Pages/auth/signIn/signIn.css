@@ -1,0 +1,12 @@
+body {
+    background-color: hsl(0, 0%, 96%);
+}
+
+#root {
+    max-height: 80vh;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+}
