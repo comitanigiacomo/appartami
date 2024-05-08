@@ -16,7 +16,7 @@ export function NavComp() {
           </Nav>
           <Nav>
             <Button href="#signIn" variant="outline-light">Sign in</Button>{' '}
-            <Button variant="outline-light">Sign up</Button>{' '}
+            <Button href="#signUp" variant="outline-light">Sign up</Button>{' '}
           </Nav>
         </Container>
       </Navbar>

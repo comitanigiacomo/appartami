@@ -1,0 +1,8 @@
+body {
+    background-color: hsl(0, 0%, 96%);
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+}
