@@ -11,7 +11,7 @@ function UserCard({ user }) {
         <Card.Text>
           frase ad effetto
         </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+        <Button variant="primary">view profile</Button>
       </Card.Body>
     </Card>
   );

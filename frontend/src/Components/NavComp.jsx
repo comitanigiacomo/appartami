@@ -1,3 +1,4 @@
+import React from 'react'; 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -13,9 +14,9 @@ export function NavComp() {
             <Nav.Link href="#users">Users</Nav.Link>
             <Nav.Link href="#userProfile">UserProfile</Nav.Link>
           </Nav>
-          <Nav>
-            <Button href="#signIn" variant="primary">Sign in</Button>{' '}
-            <Button href="#signUp" variant="outline-light">Sign up</Button>{' '}
+          <Nav> 
+              <Button className='mr-3' href="#signIn" variant="primary">Sign in</Button>{' '}
+              <Button className='ml-3' href="#signUp" variant="outline-light">Sign up</Button>{' '}
           </Nav>
         </Container>
       </Navbar>

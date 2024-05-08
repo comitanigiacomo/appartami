@@ -1,11 +1,10 @@
-import React from 'react';
-import UserCard from './UserCard';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import UserCard from './UserCard';
 
-function UsersGridCards({ users }) {
+export function UsersGridCards({ users }) {
   return (
-    <Row xs={1} md={4} className="g-4">
+    <Row xs={1} md={6} className="g-4">
       {users.map((user, idx) => (
         <Col key={idx}>
           <UserCard user={user} />
@@ -14,6 +13,3 @@ function UsersGridCards({ users }) {
     </Row>
   );
 }
-
-
-export default UsersGridCards;

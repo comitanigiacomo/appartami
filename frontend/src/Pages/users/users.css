@@ -2,23 +2,14 @@ main {
     background-color: rgb(37, 29, 29);
     display: flex;
     flex-direction: column;
-}
 
-main .listaUtenti p{
-    color: white;
-    display: flex;
-    justify-content: center;
 }
 
 main div {
+    /*centra il contenuto delle cards*/
     text-align: center;
     justify-content: center;
 }
-
-main .userCards {
-    margin: 250px;
-}
-
 
 
 main .userCards .g-4 .card-body{
@@ -26,15 +17,26 @@ main .userCards .g-4 .card-body{
 }
 
 main .userCards .g-4 .card-img-top{
+    /*padding sull'immagine delle cards*/
     padding: 40px;
 }
 
-main .userCards .col .card {
-    margin: auto;
+
+.col {
+    display: flex;
 }
 
-main .userCards .g-4 {
-    display: flex;
-    align-items: center;
+.userCards {
+    margin-bottom: 10px;
 }
+
+.listaUtenti {
+    color: white;
+    display: flex;
+    flex: 1;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import UsersGridCards from '../../Components/UsersGridCards';
+import { UsersGridCards } from '../../Components/UsersGridCards';
 import './users.css';
 
 export function Users() {
@@ -22,7 +22,7 @@ export function Users() {
   return (
     <>
       <div className="listaUtenti">
-        <h1><p>Lista Utenti</p></h1>
+        <div><h1><p>Lista Utenti</p></h1></div>
       </div>
       <div className="userCards">
         <UsersGridCards users={users} />
