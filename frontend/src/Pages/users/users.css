@@ -1,37 +1,36 @@
 main {
     background-color: rgb(37, 29, 29);
-}
-
-.listaUtenti {
     display: flex;
-    justify-content:center;
-    color: rgb(0, 97, 233);
+    flex-direction: column;
 }
 
-.userCards {
-    
+main .listaUtenti p{
+    color: white;
     display: flex;
     justify-content: center;
-    align-items: center;
+}
+
+main div {
     text-align: center;
-    color: white;
-}
-
-.g-4 .col{
-    display: flex;
-    align-items: center;
     justify-content: center;
 }
 
-.userCards img {
-    padding: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+main .userCards {
+    margin-inline: 50px;;
 }
 
-.userCards .card-body,
-.userCards .card-title,
-.userCards .card-text {
+main .userCards .g-4 .col {
+    /*centra gli elementi all'interno delle cards*/
+    display: flex;
+    /*diminuisce il margine tra una cards e l'altra*/
+    margin-inline: -50px;
+}
+
+main .userCards .g-4 .card-body{
     color: white;
 }
+
+main .userCards .g-4 .card-img-top{
+    padding: 40px;
+}
+
