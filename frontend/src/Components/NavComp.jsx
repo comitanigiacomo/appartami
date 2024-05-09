@@ -9,7 +9,7 @@ export function NavComp() {
       <>
       <Navbar sticky="top" bg="dark" data-bs-theme="dark">
         <Container>
-          <img src='../images/logo.png'></img>
+          <img margin-right='5px'src='../images/logo.png'></img>
           <Navbar.Brand href="#/">Appartami</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#users">Users</Nav.Link>
