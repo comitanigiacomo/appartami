@@ -9,6 +9,7 @@ export function SignUp() {
     username: '',
     password: ''
   });
+  const [isLoading, setIsLoading] = useState(false); // Stato per gestire il caricamento
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -20,6 +21,8 @@ export function SignUp() {
 
   const handleSignUp = async () => {
     try {
+      setIsLoading(true); // Imposta lo stato di caricamento a true prima di effettuare la richiesta
+
       const response = await fetch('/api/users/register', {
         method: 'POST',
         headers: {
@@ -30,7 +33,9 @@ export function SignUp() {
 
       if (response.ok) {
         // Se la registrazione è avvenuta con successo, reindirizza l'utente alla pagina di login
-        navigate('/signin');
+        setTimeout(() => {
+          navigate('/signin');
+        }, 3000); // Imposta il tempo di ritardo in millisecondi (in questo caso, 20 secondi)
       } else {
         // Gestisci eventuali errori o feedback dal backend
         const data = await response.json();
@@ -39,6 +44,11 @@ export function SignUp() {
     } catch (error) {
       // Gestisci eventuali errori di rete o altre eccezioni
       console.error('Error:', error);
+    } finally {
+      // Imposta lo stato di caricamento a false dopo il completamento della richiesta
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
     }
   };
 
@@ -72,7 +82,9 @@ export function SignUp() {
                 value={formData.password}
                 onChange={handleInputChange}
               />
-              <Button variant="outline-light" onClick={handleSignUp}>Sign Up</Button>{' '}
+              <Button variant="outline-light" onClick={handleSignUp} disabled={isLoading}>
+                {isLoading ? 'Loading...' : 'Sign Up'}
+              </Button>{' '}
               <div className='d-flex flex-row mt-3 mb-5'>
                 <MDBBtn tag='a' color='none' className='m-3' style={{ color: 'white' }}>
                   <MDBIcon fab icon='facebook-f' size="lg"/>
