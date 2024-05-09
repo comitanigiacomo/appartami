@@ -12,7 +12,7 @@ import { faGoogle, faInstagram, faGithub } from '@fortawesome/free-brands-svg-ic
 function Footer() {
   return (
     <MDBFooter className='bg-dark text-center text-white' custom-footer>
-      <MDBContainer className='p-4 pb-0'>
+      <MDBContainer className='p-3 pb-0'>
         <section className='mb-3'>
           <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
             <FontAwesomeIcon icon={faGoogle} />
@@ -26,7 +26,7 @@ function Footer() {
         </section>
       </MDBContainer>
 
-      <div className='text-center p-1' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+      <div className='text-center p-4' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
         <div>
             made by jack during the small hours
         </div>
