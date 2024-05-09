@@ -1,10 +1,9 @@
 import React from 'react';
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography, MDBIcon } from 'mdb-react-ui-kit';
-import './UserProfileCard.css'
 
 export function UserProfileCard() {
   return (
-    <section className="vh-100" style={{ backgroundColor: '#f4f5f7' }}>
+    <section className="vh-100" style={{ backgroundColor: 'rgb(37, 29, 29)' }}>
       <MDBContainer className="py-5 h-100">
         <MDBRow className="justify-content-center align-items-center h-100">
           <MDBCol lg="6" className="mb-4 mb-lg-0">
@@ -20,7 +19,7 @@ export function UserProfileCard() {
                 </MDBCol>
                 <MDBCol md="8">
                   <MDBCardBody className="p-4">
-                    <MDBTypography tag="h6">Information</MDBTypography>
+                    <MDBTypography tag="h4">Informations</MDBTypography>
                     <hr className="mt-0 mb-4" />
                     <MDBRow className="pt-1">
                       <MDBCol size="6" className="mb-3">
@@ -33,7 +32,7 @@ export function UserProfileCard() {
                       </MDBCol>
                     </MDBRow>
 
-                    <MDBTypography tag="h6">Information</MDBTypography>
+                    <MDBTypography tag="h4">Stato</MDBTypography>
                     <hr className="mt-0 mb-4" />
                     <MDBRow className="pt-1">
                       <MDBCol size="6" className="mb-3">

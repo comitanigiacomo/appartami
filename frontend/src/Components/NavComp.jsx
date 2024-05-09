@@ -13,11 +13,11 @@ export function NavComp() {
           <Navbar.Brand href="#/">Appartami</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#users">Users</Nav.Link>
-            <Nav.Link href="#userProfile">UserProfile</Nav.Link>
           </Nav>
           <Nav> 
               <Button className='mr-3' href="#signIn" variant="primary">Sign in</Button>{' '}
               <Button className='ml-3' href="#signUp" variant="outline-light">Sign up</Button>{' '}
+              <Nav.Link href="#userProfile">UserProfile</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
