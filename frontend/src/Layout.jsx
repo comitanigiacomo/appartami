@@ -6,11 +6,11 @@ import './Layout.css'
 export function Layout() {
     return (
         <>
+        <main>
             <NavComp />
-            <main>
-                <Outlet/>
-            </main>
+            <Outlet/>
             <Footer />
+        </main>
         </>
     )
 }

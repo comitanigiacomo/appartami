@@ -26,7 +26,7 @@ export function SignIn() {
               <h2 className="fw-bold mb-2 text-uppercase">Sign In</h2>
               <p className="text-white-50 mb-5">Please enter your username and password</p>
 
-              <MDBInput wrapperClass='mb-4 mx-5 w-100' labelClass='text-white' label='Email address' id='formControlLg' type='email' size="lg"/>
+              <MDBInput wrapperClass='mb-4 mx-5 w-100' labelClass='text-white' label='Username' id='formControlLg' type='username' size="lg"/>
               <MDBInput wrapperClass='mb-4 mx-5 w-100' labelClass='text-white' label='Password' id='formControlLg' type='password' size="lg"/>
 
               <Button variant="outline-light">Login</Button>{' '}
@@ -45,10 +45,7 @@ export function SignIn() {
                 </MDBBtn>
               </div>
 
-              <div>
-                <p className="mb-0">Don't have an account? <a href="#signUp" class="text-white-50 fw-bold">Sign Up</a></p>
 
-              </div>
             </MDBCardBody>
           </MDBCard>
 

@@ -7,3 +7,7 @@ body #root{
 main {
     flex:1;
 }
+
+.custom-footer {
+    height: 2px; /* Altezza desiderata */
+}
