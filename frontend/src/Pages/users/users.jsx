@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import { UsersGridCards } from '../../Components/UsersGridCards';
 import './users.css';
 
@@ -8,9 +10,16 @@ export function Users() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('/api/users/getUsers');
-        const data = await response.json();
-        setUsers(data);
+        const token = localStorage.getItem('token'); // Ottieni il token JWT dal localStorage
+
+        // Effettua la richiesta al backend per ottenere gli utenti utilizzando Axios
+        const response = await axios.get('/api/users/getUsers', {
+          headers: {
+            'Authorization': `Bearer ${token}` // Includi il token nell'header Authorization
+          }
+        });
+
+        setUsers(response.data);
       } catch (error) {
         console.error('Errore nel recupero degli utenti:', error);
       }
@@ -25,9 +34,12 @@ export function Users() {
         <div><h1><p>Lista Utenti</p></h1></div>
       </div>
       <div className="userCards">
-        <UsersGridCards users={users} />
+        {users.length > 0 ? (
+          <UsersGridCards users={users} />
+        ) : (
+          <p>Loading users...</p>
+        )}
       </div>
     </>
   );
 }
-

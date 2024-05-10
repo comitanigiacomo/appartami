@@ -21,7 +21,7 @@ export function SignUp() {
 
   const handleSignUp = async () => {
     try {
-      setIsLoading(true); // Imposta lo stato di caricamento a true prima di effettuare la richiesta
+      setIsLoading(true);
 
       const response = await fetch('/api/users/register', {
         method: 'POST',
@@ -38,6 +38,7 @@ export function SignUp() {
         }, 3000); // Imposta il tempo di ritardo in millisecondi (in questo caso, 20 secondi)
       } else {
         // Gestisci eventuali errori o feedback dal backend
+        console.log('ooooh')
         const data = await response.json();
         console.error('Registration error:', data.error);
       }

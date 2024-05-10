@@ -23,8 +23,8 @@ export function SignIn() {
 
   const handleLogin = async () => {
     try {
-      setIsLoading(true); // Imposta lo stato di caricamento a true prima di effettuare la richiesta
-
+      setIsLoading(true);
+  
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -32,30 +32,26 @@ export function SignIn() {
         },
         body: JSON.stringify(formData)
       });
-
+  
       if (response.ok) {
-        // Se il login è avvenuto con successo, ottieni il token dal corpo della risposta
+
         const { token } = await response.json();
 
-        // Memorizza il token nel localStorage
         localStorage.setItem('token', token);
+        
 
         // Reindirizza l'utente alla pagina di destinazione dopo il login
         setTimeout(() => {
-          navigate('/ciao');
+          navigate('/users');
         }, 3000); 
       } else {
-        // Gestisci eventuali errori o feedback dal backend
         const data = await response.json();
         console.error('Login error:', data.error);
-        // Mostra l'alert di errore
         setShowError(true);
       }
     } catch (error) {
-      // Gestisci eventuali errori di rete o altre eccezioni
       console.error('Error:', error);
     } finally {
-      // Imposta lo stato di caricamento a false dopo il completamento della richiesta
       setTimeout(() => {
         setIsLoading(false);
       }, 3000);

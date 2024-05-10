@@ -88,7 +88,6 @@ exports.updatePreference = async (req, res) => {
   }
 };
 
-
 // Delete all Preferences
 exports.deletePreferences = async (req, res) => {
   try {
