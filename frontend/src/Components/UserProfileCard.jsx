@@ -1,7 +1,7 @@
 import React from 'react';
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography, MDBIcon } from 'mdb-react-ui-kit';
 
-export function UserProfileCard() {
+export function UserProfileCard({ userData }) {
   return (
     <section className="vh-100" style={{ backgroundColor: 'rgb(37, 29, 29)' }}>
       <MDBContainer className="py-5 h-100">
@@ -13,8 +13,8 @@ export function UserProfileCard() {
                   style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
                   <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                     alt="Avatar" className="my-5" style={{ width: '80px' }} fluid />
-                  <MDBTypography tag="h5">Marie Horwitz</MDBTypography>
-                  <MDBCardText>Web Designer</MDBCardText>
+                  <MDBTypography tag="h5">{userData.username}</MDBTypography>
+                  <MDBCardText>{userData.role}</MDBCardText>
                   <MDBIcon far icon="edit mb-5" />
                 </MDBCol>
                 <MDBCol md="8">
@@ -23,12 +23,12 @@ export function UserProfileCard() {
                     <hr className="mt-0 mb-4" />
                     <MDBRow className="pt-1">
                       <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6">Email</MDBTypography>
-                        <MDBCardText className="text-muted">info@example.com</MDBCardText>
+                        <MDBTypography tag="h6">Username</MDBTypography>
+                        <MDBCardText className="text-muted">{userData.username}</MDBCardText>
                       </MDBCol>
                       <MDBCol size="6" className="mb-3">
                         <MDBTypography tag="h6">Phone</MDBTypography>
-                        <MDBCardText className="text-muted">123 456 789</MDBCardText>
+                        <MDBCardText className="text-muted">{userData.phone}</MDBCardText>
                       </MDBCol>
                     </MDBRow>
 
@@ -37,11 +37,11 @@ export function UserProfileCard() {
                     <MDBRow className="pt-1">
                       <MDBCol size="6" className="mb-3">
                         <MDBTypography tag="h6">Email</MDBTypography>
-                        <MDBCardText className="text-muted">info@example.com</MDBCardText>
+                        <MDBCardText className="text-muted">{userData.email}</MDBCardText>
                       </MDBCol>
                       <MDBCol size="6" className="mb-3">
                         <MDBTypography tag="h6">Phone</MDBTypography>
-                        <MDBCardText className="text-muted">123 456 789</MDBCardText>
+                        <MDBCardText className="text-muted">{userData.phone}</MDBCardText>
                       </MDBCol>
                     </MDBRow>
 

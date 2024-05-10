@@ -17,7 +17,6 @@ exports.login = async (req, res) => {
 
         // Verifica la password
         if (!bcrypt.compareSync(password, user.password)) {
-            console.log("qui")
             return res.status(401).json({ error: 'Credenziali non valide' });
         }
 
@@ -31,10 +30,11 @@ exports.login = async (req, res) => {
         const token = jwt.sign(payload, 'appartami', { expiresIn: '1h' });
 
         // Imposta il cookie con il token
-        res.cookie('token', token, { httpOnly: true });
+        res.cookie('token', token, { httpOnly: false, sameSite: 'None', secure: true });
+
 
         // Invia il token di accesso al client
-        res.status(200).json({ token });
+        res.status(200).json( 'login ok ' );
     } catch (error) {
         console.error('Errore durante il login:', error);
         res.status(500).json({ error: 'Errore durante il login' });

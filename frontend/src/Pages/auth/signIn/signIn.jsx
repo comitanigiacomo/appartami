@@ -30,7 +30,8 @@ export function SignIn() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData),
+            credentials: 'include' // Aggiungi questa opzione per includere i cookie
         });
 
         if (response.ok) {
@@ -51,6 +52,7 @@ export function SignIn() {
         }, 3000);
     }
 };
+
 
 
   return (
