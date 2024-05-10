@@ -40,3 +40,16 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: 'Errore durante il login' });
     }
 };
+
+exports.logout = (req, res) => {
+    try {
+        // Rimuovi il token dal cookie impostando la sua scadenza a un momento nel passato
+        res.cookie('token', '', { expires: new Date(0), httpOnly: true });
+        
+        // Invia una risposta di successo
+        res.status(200).json({ message: 'Logout effettuato con successo' });
+    } catch (error) {
+        console.error('Errore durante il logout:', error);
+        res.status(500).json({ error: 'Errore durante il logout' });
+    }
+};
