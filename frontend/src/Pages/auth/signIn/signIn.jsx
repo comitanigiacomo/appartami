@@ -23,40 +23,35 @@ export function SignIn() {
 
   const handleLogin = async () => {
     try {
-      setIsLoading(true);
-  
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-      });
-  
-      if (response.ok) {
+        setIsLoading(true);
 
-        const { token } = await response.json();
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
 
-        localStorage.setItem('token', token);
-        
-
-        // Reindirizza l'utente alla pagina di destinazione dopo il login
-        setTimeout(() => {
-          navigate('/users');
-        }, 3000); 
-      } else {
-        const data = await response.json();
-        console.error('Login error:', data.error);
-        setShowError(true);
-      }
+        if (response.ok) {
+            // Reindirizza l'utente alla pagina di destinazione dopo il login
+            setTimeout(() => {
+                navigate('/ciao');
+            }, 3000); 
+        } else {
+            const data = await response.json();
+            console.error('Login error:', data.error);
+            setShowError(true);
+        }
     } catch (error) {
-      console.error('Error:', error);
+        console.error('Error:', error);
     } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 3000);
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 3000);
     }
-  };
+};
+
 
   return (
     <MDBContainer fluid>

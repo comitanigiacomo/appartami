@@ -1,8 +1,10 @@
 const express = require("express"); 
+const cookieParser = require('cookie-parser');
 const { connectToMongoDB } = require('./database/config.js');
+const verifyToken = require('../src/middleware/verifyToken.js');
+
 const app = express(); 
 
-// Importa le route
 const userRoutes = require('./routes/userRoutes.js');
 const apartmentRoutes = require('./routes/apartmentRoutes.js');
 const preferenceRoutes = require('./routes/preferenceRoutes.js');
@@ -14,15 +16,19 @@ const PORT = process.env.PORT || 8080;
 // Connessione al database
 connectToMongoDB()
   .then(() => {
-    
     // Middleware per il parsing del corpo delle richieste
     app.use(express.json());
+
+    // Middleware per i cookie e la verifica del token
+    app.use('/api/auth', authRoutes); 
+
+    app.use(cookieParser());
+    app.use(verifyToken);
 
     // Aggiungi le route
     app.use('/api/users', userRoutes);
     app.use('/api/preferences', preferenceRoutes);
     app.use('/api/apartments', apartmentRoutes);
-    app.use('/api/auth', authRoutes); 
     app.use('/api', userDistributionRoutes);
 
     // Esegui il server Express solo dopo aver stabilito la connessione al database

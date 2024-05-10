@@ -11,6 +11,6 @@ router.post('/register', UserController.registerUser);
 router.delete('/delete/:id', UserController.deleteUser);
 
 // Route per restituire tutti gli utenti
-router.get('/getUsers', verifyToken, UserController.getUsers);
+router.get('/getUsers',UserController.getUsers);
 
 module.exports = router;

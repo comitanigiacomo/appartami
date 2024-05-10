@@ -23,13 +23,15 @@ export function SignUp() {
     try {
       setIsLoading(true);
 
-      const response = await fetch('/api/users/register', {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
         },
+        credentials: 'include', // Assicurati di includere i cookie nella richiesta
         body: JSON.stringify(formData)
-      });
+    });
+    
 
       if (response.ok) {
         // Se la registrazione è avvenuta con successo, reindirizza l'utente alla pagina di login

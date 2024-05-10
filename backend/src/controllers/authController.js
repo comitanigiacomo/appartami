@@ -24,7 +24,8 @@ exports.login = async (req, res) => {
         // Se le credenziali sono valide, genera un token di accesso
         const token = jwt.sign({ userId: user._id }, 'appartami', { expiresIn: '1h' });
 
-        localStorage.setItem('token', token);
+        // Imposta il cookie con il token
+        res.cookie('token', token, { httpOnly: true });
 
         // Invia il token di accesso al client
         res.status(200).json({ token });
