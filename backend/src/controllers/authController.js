@@ -21,8 +21,14 @@ exports.login = async (req, res) => {
             return res.status(401).json({ error: 'Credenziali non valide' });
         }
 
+        
+        // Creazione del payload del token con l'ID dell'utente e altri dati personali
+        const payload = {
+            username: user.username,
+        };
+
         // Se le credenziali sono valide, genera un token di accesso
-        const token = jwt.sign({ userId: user._id }, 'appartami', { expiresIn: '1h' });
+        const token = jwt.sign(payload, 'appartami', { expiresIn: '1h' });
 
         // Imposta il cookie con il token
         res.cookie('token', token, { httpOnly: true });
