@@ -58,10 +58,6 @@ export function UserProfileCard({ userData }) {
                         <MDBTypography tag="h6">Username</MDBTypography>
                         <MDBInput type="text" name="username" value={editedUserData.username} onChange={handleChange} />
                       </MDBCol>
-                      <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6">Phone</MDBTypography>
-                        <MDBInput type="text" name="phone" value={editedUserData.phone} onChange={handleChange} />
-                      </MDBCol>
                     </MDBRow>
 
                     <MDBRow className="pt-1">
@@ -69,13 +65,9 @@ export function UserProfileCard({ userData }) {
                         <MDBTypography tag="h6">Email</MDBTypography>
                         <MDBInput type="email" name="email" value={editedUserData.email} onChange={handleChange} />
                       </MDBCol>
-                      <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6">Stato</MDBTypography>
-                        <MDBInput type="text" name="phone" value={editedUserData.phone} onChange={handleChange} />
-                      </MDBCol>
                     </MDBRow>
 
-                    <div className="d-flex justify-content-start">
+                    <div className="d-flex justify-content-center"> {/* Modified line */}
                       <MDBBtn onClick={handleSubmit}>Save Changes</MDBBtn>
                     </div>
                   </MDBCardBody>

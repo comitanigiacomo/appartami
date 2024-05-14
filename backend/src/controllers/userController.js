@@ -81,3 +81,96 @@ exports.getUserByUsername = async (req, res) => {
       res.status(500).json({ error: 'Errore durante il recupero delle informazioni dell\'utente' });
   }
 };
+
+exports.updateEmail = async (req, res) => {
+  try {
+    // Ottieni il token JWT dal cookie della richiesta
+    const token = req.cookies.token;
+
+    // Estrai direttamente l'username dal payload del token JWT
+    const decodedToken = jwt.verify(token, 'appartami');
+    const username = decodedToken.username;
+
+    // Cerca l'utente nel database tramite l'username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Utente non trovato' });
+    }
+
+    // Aggiorna l'email dell'utente con la nuova email fornita nella richiesta
+    user.email = req.body.email; // Assicurati che il client includa il campo 'email' nella richiesta
+
+    // Salva le modifiche nell'utente
+    await user.save();
+
+    // Restituisci le informazioni aggiornate dell'utente
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Errore durante l\'aggiornamento dell\'email dell\'utente:', error);
+    res.status(500).json({ error: 'Errore durante l\'aggiornamento dell\'email dell\'utente' });
+  }
+};
+
+exports.updateUsername = async (req, res) => {
+  try {
+    // Ottieni il token JWT dal cookie della richiesta
+    const token = req.cookies.token;
+
+    // Estrai direttamente l'username dal payload del token JWT
+    const decodedToken = jwt.verify(token, 'appartami');
+    const username = decodedToken.username;
+
+    // Cerca l'utente nel database tramite l'username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Utente non trovato' });
+    }
+
+    // Aggiorna lo username dell'utente con il nuovo username fornito nella richiesta
+    user.username = req.body.username; // Assicurati che il client includa il campo 'username' nella richiesta
+
+    // Salva le modifiche nell'utente
+    await user.save();
+
+    // Restituisci le informazioni aggiornate dell'utente
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Errore durante l\'aggiornamento dello username dell\'utente:', error);
+    res.status(500).json({ error: 'Errore durante l\'aggiornamento dello username dell\'utente' });
+  }
+};
+
+exports.updatePassword = async (req, res) => {
+  try {
+    // Ottieni il token JWT dal cookie della richiesta
+    const token = req.cookies.token;
+
+    // Estrai direttamente l'username dal payload del token JWT
+    const decodedToken = jwt.verify(token, 'appartami');
+    const username = decodedToken.username;
+
+    // Cerca l'utente nel database tramite l'username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Utente non trovato' });
+    }
+
+    // Hash della nuova password
+    const hashedPassword = await bcrypt.hash(req.body.newPassword, 10); // Assicurati che il client includa il campo 'newPassword' nella richiesta
+
+    // Aggiorna la password dell'utente con la nuova password hashata
+    user.password = hashedPassword;
+
+    // Salva le modifiche nell'utente
+    await user.save();
+
+    // Restituisci le informazioni aggiornate dell'utente
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Errore durante l\'aggiornamento della password dell\'utente:', error);
+    res.status(500).json({ error: 'Errore durante l\'aggiornamento della password dell\'utente' });
+  }
+};

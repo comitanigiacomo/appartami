@@ -1,42 +1,9 @@
-main {
-    background-color: rgb(37, 29, 29);
-    display: flex;
-    flex-direction: column;
-
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-main div {
-    /*centra il contenuto delle cards*/
-    text-align: center;
-    justify-content: center;
+#root main {
+    height: auto;
 }
-
-
-main .userCards .g-4 .card-body{
-    color: white;
-}
-
-main .userCards .g-4 .card-img-top{
-    /*padding sull'immagine delle cards*/
-    padding: 40px;
-}
-
-
-.col {
-    display: flex;
-}
-
-.userCards {
-    margin-bottom: 10px;
-}
-
-.listaUtenti {
-    color: white;
-    display: flex;
-    flex: 1;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-
-

@@ -39,7 +39,7 @@ export function NavComp() {
           <img style={{ borderRadius: '50%', marginRight: '20px' }} src={image} alt="logo" />
           <Navbar.Brand href="#/">Appartami</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#users">Users</Nav.Link>
+          {isLoggedIn && <Nav.Link href="#users">Users</Nav.Link>}
           </Nav>
           <Nav>
             {/* Mostra diversi pulsanti in base allo stato di autenticazione */}

@@ -9,10 +9,16 @@
     background: linear-gradient(to right bottom, rgba(0, 150, 255, 1), rgb(0, 41, 71))
 }
 
-.main {
-  max-height: 77vh;
+body {
+  max-height: 100vh;
 }
 
 .vh-100 {
   background-color: rgb(37, 29, 29);
+}
+
+#root main {
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

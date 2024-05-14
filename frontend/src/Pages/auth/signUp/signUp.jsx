@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBIcon } from 'mdb-react-ui-kit';
 import Button from 'react-bootstrap/Button';
+import './signUp.css'
 
 export function SignUp() {
   const navigate = useNavigate();

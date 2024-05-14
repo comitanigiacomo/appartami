@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBIcon } from 'mdb-react-ui-kit';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
+import './signIn.css'
 
 export function SignIn() {
   const navigate = useNavigate();
