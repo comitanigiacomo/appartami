@@ -38,7 +38,7 @@ export function SignIn() {
         if (response.ok) {
             // Reindirizza l'utente alla pagina di destinazione dopo il login
             setTimeout(() => {
-                navigate('/userProfile');
+                navigate('/');
             }, 3000); 
         } else {
             const data = await response.json();

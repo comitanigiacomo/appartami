@@ -23,7 +23,8 @@ export function NavComp() {
       if (response.ok) {
         // Perform logout from the application or other necessary actions
         console.log('Logout successful');
-        window.location.reload();
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'; // Clear token cookie
+        setIsLoggedIn(false); // Update isLoggedIn state
       } else {
         console.error('Logout error:', response.statusText);
       }
