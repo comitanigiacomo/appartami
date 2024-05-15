@@ -30,3 +30,14 @@
 .content1 {
     background: #333;
 }
+
+.alert-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px; /* Regola questa proprietà per modificare la distanza tra i bottoni e l'alert */
+  }
+  
+  .alert-container .alert {
+    max-width: 400px;
+    width: 100%;
+  }

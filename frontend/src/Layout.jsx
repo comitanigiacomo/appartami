@@ -1,6 +1,6 @@
 import React from "react";
 import { NavComp } from "./Components/NavComp";
-import { Outlet } from "react-router-dom";
+import { Outlet, useOutletContext } from "react-router-dom";
 import Footer from "./Components/Footer";
 import './Layout.css';
 
@@ -9,7 +9,7 @@ export function Layout({ isLoggedIn, handleLogout }) {
         <>
         <main>
             <NavComp isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-            <Outlet />
+            <Outlet context={{ isLoggedIn }} />
             <Footer />
         </main>
         </>

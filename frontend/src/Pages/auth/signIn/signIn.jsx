@@ -13,7 +13,6 @@ export function SignIn({ updateIsLoggedIn }) {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [showLoadingMessage, setShowLoadingMessage] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +25,6 @@ export function SignIn({ updateIsLoggedIn }) {
   const handleLogin = async () => {
     try {
       setIsLoading(true);
-      setShowLoadingMessage(true);
 
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -50,8 +48,9 @@ export function SignIn({ updateIsLoggedIn }) {
     } catch (error) {
       console.error('Error:', error);
     } finally {
+      setTimeout(() => {
       setIsLoading(false);
-      setShowLoadingMessage(false);
+    }, 2000);
     }
   };
 
@@ -104,9 +103,6 @@ export function SignIn({ updateIsLoggedIn }) {
                   <Alert.Heading>Error!</Alert.Heading>
                   <p>Invalid credentials. Please try again.</p>
                 </Alert>
-              )}
-              {showLoadingMessage && (
-                <div className="text-white">Loading...</div>
               )}
             </MDBCardBody>
           </MDBCard>
