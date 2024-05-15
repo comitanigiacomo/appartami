@@ -1,0 +1,74 @@
+/* Zigzag.css */
+
+.zigzag-section {
+    display: flex;
+    justify-content: center; /* Center the zigzag container */
+    padding: 40px;
+    background: #333;
+    color: #fff;
+}
+
+.zigzag-container {
+    width: 30%; /* Set a maximum width to center the content */
+}
+
+.zigzag-item {
+    display: flex;
+    align-items: center;
+    background: #222;
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 10px; /* Add rounded borders */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    flex-direction: row;
+    gap: 20px;
+}
+
+.zigzag-image {
+    width: 200px;
+    height: auto;
+    margin: auto;
+    border-radius: 8px;
+}
+
+.zigzag-content {
+    flex: 1;
+    text-align: center;
+}
+
+.features-list {
+    list-style: none;
+    padding: 30px;
+}
+
+.features-list li {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.features-list span[role="img"] {
+    margin-right: 10px;
+}
+
+/* Media query for mobile and tablet screens */
+@media (max-width: 1024px) {
+    .zigzag-container {
+        width: 90%; /* Increase width for better mobile and tablet view */
+    }
+
+    .zigzag-item {
+        flex-direction: column; /* Stack items vertically */
+        text-align: center; /* Center-align text for better readability */
+    }
+
+    .zigzag-image {
+        width: 100%;
+        max-width: none;
+        margin-bottom: 20px; /* Add margin below images */
+    }
+
+    .features-list {
+        padding: 20px; /* Adjust padding for mobile and tablet */
+    }
+}

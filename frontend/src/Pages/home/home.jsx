@@ -1,5 +1,5 @@
 import React from 'react'
-import {CarouselComp} from '../../Components/CarouselComp'
+import Zigzag from '../../Components/Zigzag'
 import { Buttons } from '../../Components/Buttons'
 import { Header } from '../../Components/Header'
 import Testimonials from '../../Components/Testimonials'
@@ -11,7 +11,7 @@ export function Home() {
       <div className='content1'>
          <Header />
          <Buttons />
-         <CarouselComp />
+         <Zigzag />
       </div>
       <div className='testimonials'>
          <Testimonials />

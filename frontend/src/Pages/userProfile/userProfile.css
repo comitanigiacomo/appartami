@@ -22,3 +22,11 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.card-body {
+  text-align: center;
+}
+
+.card-body .row {
+  justify-content: center;
+}

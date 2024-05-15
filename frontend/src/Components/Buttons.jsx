@@ -4,8 +4,8 @@ import Button from 'react-bootstrap/Button';
 export function Buttons() {
     return (
         <div className="buttons">
-            <Button variant="primary">Inizia Ora</Button>{' '}
-            <Button variant="outline-light">Scopri di più</Button>{' '}
+            <Button className="btn1" variant="primary">Inizia Ora</Button>{' '}
+            <Button className="btn2" variant="outline-light">Scopri di più</Button>{' '}
         </div>
     );
 }

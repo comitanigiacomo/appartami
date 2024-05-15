@@ -1,2 +1,32 @@
+#root {
+    background: #333;
+}
 
+.header {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background: #333;
+    color:white ;
+    margin-top: 70px;
+}
   
+.buttons {
+    display: flex;
+    justify-content: center;
+    background: #333;
+    margin-top: 40px;
+}
+
+.buttons .btn1 {
+    margin-right: 5px;
+}
+
+.buttons .btn2 {
+    margin-left: 5px;
+}
+
+
+.content1 {
+    background: #333;
+}
