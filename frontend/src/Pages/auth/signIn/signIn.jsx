@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import './signIn.css'
 
-export function SignIn({ updateNav }) {
+export function SignIn({ updateIsLoggedIn }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
@@ -13,7 +13,7 @@ export function SignIn({ updateNav }) {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [showLoadingMessage, setShowLoadingMessage] = useState(false); // State per mostrare il messaggio di caricamento
+  const [showLoadingMessage, setShowLoadingMessage] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +26,7 @@ export function SignIn({ updateNav }) {
   const handleLogin = async () => {
     try {
       setIsLoading(true);
-      setShowLoadingMessage(true); // Mostra il messaggio di caricamento
+      setShowLoadingMessage(true);
 
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -38,10 +38,10 @@ export function SignIn({ updateNav }) {
       });
 
       if (response.ok) {
-        // Reindirizza l'utente alla home dopo il login
+        updateIsLoggedIn(true); // Aggiorna lo stato isLoggedIn a true
         setTimeout(() => {
-          window.location.reload();
-        }, 2000); // Ricarica la pagina dopo 2 secondi
+          navigate('/');
+        }, 2000);
       } else {
         const data = await response.json();
         console.error('Login error:', data.error);
@@ -51,7 +51,7 @@ export function SignIn({ updateNav }) {
       console.error('Error:', error);
     } finally {
       setIsLoading(false);
-      setShowLoadingMessage(false); // Nasconde il messaggio di caricamento
+      setShowLoadingMessage(false);
     }
   };
 
