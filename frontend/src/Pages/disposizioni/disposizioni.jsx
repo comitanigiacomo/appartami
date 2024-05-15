@@ -1,6 +1,9 @@
+import React from "react"
+import { Apartments } from "../../Components/Apartments"
+
 export function Disposizioni() {
     return (
-    <p>questa è la pagina delle disposizioni </p>
+    <Apartments />
 )
 }
 
