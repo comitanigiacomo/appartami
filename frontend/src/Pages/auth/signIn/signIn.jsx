@@ -5,14 +5,14 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import './signIn.css'
 
-export function SignIn() {
+export function SignIn({ updateNav }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     password: ''
   });
-  const [isLoading, setIsLoading] = useState(false); // Stato per gestire il caricamento
-  const [showError, setShowError] = useState(false); // Stato per visualizzare l'alert di errore
+  const [isLoading, setIsLoading] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -24,38 +24,32 @@ export function SignIn() {
 
   const handleLogin = async () => {
     try {
-        setIsLoading(true);
+      setIsLoading(true);
 
-        const response = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-            credentials: 'include' // Aggiungi questa opzione per includere i cookie
-        });
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+        credentials: 'include'
+      });
 
-        if (response.ok) {
-            // Reindirizza l'utente alla pagina di destinazione dopo il login
-            setTimeout(() => {
-                navigate('/');
-            }, 3000); 
-        } else {
-            const data = await response.json();
-            console.error('Login error:', data.error);
-            setShowError(true);
-        }
+      if (response.ok) {
+        // Reindirizza l'utente alla home dopo il login
+        navigate('/');
+        updateNav(true); // Aggiorna lo stato di isLoggedIn nella navbar
+      } else {
+        const data = await response.json();
+        console.error('Login error:', data.error);
+        setShowError(true);
+      }
     } catch (error) {
-        console.error('Error:', error);
+      console.error('Error:', error);
     } finally {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 3000);
+      setIsLoading(false);
     }
-};
-
-
-
+  };
   return (
     <MDBContainer fluid>
       <MDBRow className='d-flex justify-content-center align-items-center h-100'>
