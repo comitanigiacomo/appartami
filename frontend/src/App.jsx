@@ -22,7 +22,7 @@ function App() {
           <Route path="/signUp" element={<SignUp />} />
           <Route
             path="/signIn"
-            element={<SignIn updateNav={setIsLoggedIn} />} // Passa la funzione di aggiornamento
+            element={<SignIn />} // Passa la funzione di aggiornamento
           />
           <Route path="/disposizioni" element={<Disposizioni />} />
         </Route>

@@ -1,4 +1,3 @@
-// SignIn.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBIcon } from 'mdb-react-ui-kit';
@@ -14,6 +13,7 @@ export function SignIn({ updateNav }) {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [showLoadingMessage, setShowLoadingMessage] = useState(false); // State per mostrare il messaggio di caricamento
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -26,6 +26,7 @@ export function SignIn({ updateNav }) {
   const handleLogin = async () => {
     try {
       setIsLoading(true);
+      setShowLoadingMessage(true); // Mostra il messaggio di caricamento
 
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -38,7 +39,9 @@ export function SignIn({ updateNav }) {
 
       if (response.ok) {
         // Reindirizza l'utente alla home dopo il login
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000); // Ricarica la pagina dopo 2 secondi
       } else {
         const data = await response.json();
         console.error('Login error:', data.error);
@@ -48,6 +51,7 @@ export function SignIn({ updateNav }) {
       console.error('Error:', error);
     } finally {
       setIsLoading(false);
+      setShowLoadingMessage(false); // Nasconde il messaggio di caricamento
     }
   };
 
@@ -100,6 +104,9 @@ export function SignIn({ updateNav }) {
                   <Alert.Heading>Error!</Alert.Heading>
                   <p>Invalid credentials. Please try again.</p>
                 </Alert>
+              )}
+              {showLoadingMessage && (
+                <div className="text-white">Loading...</div>
               )}
             </MDBCardBody>
           </MDBCard>
