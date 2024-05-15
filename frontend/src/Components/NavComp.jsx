@@ -4,43 +4,31 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import image from '../images/logo.png';
-import Cookies from 'js-cookie';
 
 export function NavComp() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const checkToken = () => {
-    // Check if there is a token in the cookies
-    const token = Cookies.get('token');
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  };
-
   useEffect(() => {
-    // Aggiungi updateNav come dipendenza per chiamare la funzione quando cambia
-    checkToken();
-  }, []); // Aggiungi updateNav come dipendenza dell'effetto
-
+    // Controlla se c'è un token nei cookie quando il componente si monta
+    const token = document.cookie.split('; ').find(row => row.startsWith('token='));
+    setIsLoggedIn(!!token); // Imposta isLoggedIn a true se c'è un token, altrimenti false
+  }, []);
 
   const handleLogout = async () => {
     try {
       const response = await fetch('/api/auth/logout', {
         method: 'POST'
-      });
-      console.log(response);
-      if (response.ok) {
-        // Perform logout from the application or other necessary actions
-        console.log('Logout successful');
-        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'; // Clear token cookie
-        setIsLoggedIn(false); // Update isLoggedIn state
-      } else {
-        console.error('Logout error:', response.statusText);
-      }
+    });
+    console.log(response)
+    if (response.ok) {
+        // Effettua il logout dall'applicazione o esegui altre azioni necessarie
+        console.log('Logout effettuato con successo');
+        window.location.reload();
+    } else {
+        console.error('Errore durante il logout:', response.statusText);
+    }
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error('Errore durante il logout:', error);
     }
   };
 
@@ -53,17 +41,17 @@ export function NavComp() {
           <Nav className="me-auto">
             {isLoggedIn && <Nav.Link href="#users">Users</Nav.Link>}
           </Nav>
-          <Nav className="button-container">
-            {/* Display different buttons based on authentication status */}
+          <Nav>
+            {/* Mostra diversi pulsanti in base allo stato di autenticazione */}
             {isLoggedIn ? (
               <>
-                <Button variant="outline-light" onClick={handleLogout}>Sign out</Button>{' '}
+                <Button className='ml-3' variant="outline-light" onClick={handleLogout}>Sign out</Button>{' '}
                 <Nav.Link href="#userProfile">UserProfile</Nav.Link>
               </>
             ) : (
               <>
-                <Button href="#signIn" variant="primary" className="me-2">Sign in</Button>
-                <Button href="#signUp" variant="outline-light">Sign up</Button>
+                <Button className='mr-3' href="#signIn" variant="primary">Sign in</Button>{' '}
+                <Button className='ml-3' href="#signUp" variant="outline-light">Sign up</Button>{' '}
               </>
             )}
           </Nav>

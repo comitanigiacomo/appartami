@@ -38,8 +38,7 @@ export function SignIn({ updateNav }) {
 
       if (response.ok) {
         // Reindirizza l'utente alla home dopo il login
-        updateNav();
-        navigate('/');
+        window.location.reload();
       } else {
         const data = await response.json();
         console.error('Login error:', data.error);
