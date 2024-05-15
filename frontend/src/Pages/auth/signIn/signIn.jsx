@@ -1,3 +1,4 @@
+// SignIn.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBIcon } from 'mdb-react-ui-kit';
@@ -37,8 +38,8 @@ export function SignIn({ updateNav }) {
 
       if (response.ok) {
         // Reindirizza l'utente alla home dopo il login
+        updateNav();
         navigate('/');
-        updateNav(true); // Aggiorna lo stato di isLoggedIn nella navbar
       } else {
         const data = await response.json();
         console.error('Login error:', data.error);
@@ -50,32 +51,33 @@ export function SignIn({ updateNav }) {
       setIsLoading(false);
     }
   };
+
   return (
     <MDBContainer fluid>
       <MDBRow className='d-flex justify-content-center align-items-center h-100'>
         <MDBCol col='12'>
-          <MDBCard className='bg-dark text-white my-5 mx-auto' style={{borderRadius: '1rem', maxWidth: '400px'}}>
+          <MDBCard className='bg-dark text-white my-5 mx-auto' style={{ borderRadius: '1rem', maxWidth: '400px' }}>
             <MDBCardBody className='p-5 d-flex flex-column align-items-center mx-auto w-100'>
               <h2 className="fw-bold mb-2 text-uppercase">Sign In</h2>
               <p className="text-white-50 mb-5">Please enter your username and password</p>
-              <MDBInput 
-                wrapperClass='mb-4 mx-5 w-100' 
-                labelClass='text-white' 
-                label='Username' 
-                id='username' 
-                type='text' 
-                size="lg" 
+              <MDBInput
+                wrapperClass='mb-4 mx-5 w-100'
+                labelClass='text-white'
+                label='Username'
+                id='username'
+                type='text'
+                size="lg"
                 name="username"
                 value={formData.username}
                 onChange={handleInputChange}
               />
-              <MDBInput 
-                wrapperClass='mb-4 mx-5 w-100' 
-                labelClass='text-white' 
-                label='Password' 
-                id='password' 
-                type='password' 
-                size="lg" 
+              <MDBInput
+                wrapperClass='mb-4 mx-5 w-100'
+                labelClass='text-white'
+                label='Password'
+                id='password'
+                type='password'
+                size="lg"
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
@@ -85,13 +87,13 @@ export function SignIn({ updateNav }) {
               </Button>{' '}
               <div className='d-flex flex-row mt-3 mb-5'>
                 <MDBBtn tag='a' color='none' className='m-3' style={{ color: 'white' }}>
-                  <MDBIcon fab icon='facebook-f' size="lg"/>
+                  <MDBIcon fab icon='facebook-f' size="lg" />
                 </MDBBtn>
                 <MDBBtn tag='a' color='none' className='m-3' style={{ color: 'white' }}>
-                  <MDBIcon fab icon='twitter' size="lg"/>
+                  <MDBIcon fab icon='twitter' size="lg" />
                 </MDBBtn>
                 <MDBBtn tag='a' color='none' className='m-3' style={{ color: 'white' }}>
-                  <MDBIcon fab icon='google' size="lg"/>
+                  <MDBIcon fab icon='google' size="lg" />
                 </MDBBtn>
               </div>
               {showError && (
@@ -106,4 +108,4 @@ export function SignIn({ updateNav }) {
       </MDBRow>
     </MDBContainer>
   );
-};
+}

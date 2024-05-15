@@ -4,15 +4,26 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import image from '../images/logo.png';
+import Cookies from 'js-cookie';
 
 export function NavComp() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const checkToken = () => {
+    // Check if there is a token in the cookies
+    const token = Cookies.get('token');
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  };
+
   useEffect(() => {
-    // Check if there is a token in the cookies when the component mounts
-    const token = document.cookie.split('; ').find(row => row.startsWith('token='));
-    setIsLoggedIn(!!token); // Set isLoggedIn to true if there's a token, otherwise false
-  }, []);
+    // Aggiungi updateNav come dipendenza per chiamare la funzione quando cambia
+    checkToken();
+  }, []); // Aggiungi updateNav come dipendenza dell'effetto
+
 
   const handleLogout = async () => {
     try {
