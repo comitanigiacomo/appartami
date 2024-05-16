@@ -260,3 +260,52 @@ exports.insertApartmentsInStanza = async (req, res) => {
     res.status(500).json({ error: 'Error adding apartments to room' });
   }
 };
+
+exports.insertPeopleInStanza = async (req, res) => {
+  try {
+    // Get the JWT token from the request cookies
+    const token = req.cookies.token;
+
+    // Decode the JWT token to extract the username
+    const decodedToken = jwt.verify(token, 'appartami');
+    const username = decodedToken.username;
+
+    // Find the user in the database by username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Find the room (stanza) by ID from the request body
+    const { stanzaId, peopleIds } = req.body;
+
+    const stanza = await Stanza.findById(stanzaId);
+
+    if (!stanza) {
+      return res.status(404).json({ error: 'Room not found' });
+    }
+
+    // Check if the user is the owner of the room
+    if (stanza.owner.toString() !== user._id.toString()) {
+      return res.status(403).json({ error: 'User is not the owner of the room' });
+    }
+
+    // Ensure the people exist
+    const peopleExist = await User.find({ '_id': { $in: peopleIds } });
+    if (peopleExist.length !== peopleIds.length) {
+      return res.status(400).json({ error: 'One or more people do not exist' });
+    }
+
+    // Add people to the room
+    stanza.people.push(...peopleIds);
+
+    await stanza.save();
+
+    // Return the updated room
+    res.status(200).json(stanza);
+  } catch (error) {
+    console.error('Error adding people to room:', error);
+    res.status(500).json({ error: 'Error adding people to room' });
+  }
+};

@@ -29,4 +29,7 @@ router.post('/createStanza', UserController.createStanza);
 // Route for adding apartments to a room
 router.post('/insertApartmentsInStanza', UserController.insertApartmentsInStanza);
 
+// Route for adding people to a room
+router.post('/insertPeopleInStanza', UserController.insertPeopleInStanza);
+
 module.exports = router;
