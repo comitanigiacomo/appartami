@@ -242,6 +242,12 @@ exports.insertApartmentsInStanza = async (req, res) => {
       return res.status(403).json({ error: 'User is not the owner of the room' });
     }
 
+    // Ensure the apartments exist
+    const apartmentExists = await Apartment.find({ '_id': { $in: apartmentIds } });
+    if (apartmentExists.length !== apartmentIds.length) {
+      return res.status(400).json({ error: 'One or more apartments do not exist' });
+    }
+
     // Add apartments to the room
     stanza.appartamenti.push(...apartmentIds);
 
