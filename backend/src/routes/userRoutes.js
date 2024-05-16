@@ -26,4 +26,7 @@ router.put('/user/updatePassword', UserController.updatePassword);
 // Route for creating a new room (stanza)
 router.post('/createStanza', UserController.createStanza);
 
+// Route for adding apartments to a room
+router.post('/insertApartmentsInStanza', UserController.insertApartmentsInStanza);
+
 module.exports = router;
