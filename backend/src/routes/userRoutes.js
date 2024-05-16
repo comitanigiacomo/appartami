@@ -23,4 +23,7 @@ router.put('/user/updateUsername', UserController.updateUsername);
 // Route per aggiornare la password dell'utente
 router.put('/user/updatePassword', UserController.updatePassword);
 
+// Route for creating a new room (stanza)
+router.post('/createStanza', UserController.createStanza);
+
 module.exports = router;

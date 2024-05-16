@@ -1,6 +1,7 @@
 const User = require('../database/models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); // Importa il modulo jsonwebtoken
+const Stanza = require('../database/models/Stanza');
 
 
 
@@ -169,6 +170,43 @@ exports.updatePassword = async (req, res) => {
 
     // Restituisci le informazioni aggiornate dell'utente
     res.status(200).json(user);
+  } catch (error) {
+    console.error('Errore durante l\'aggiornamento della password dell\'utente:', error);
+    res.status(500).json({ error: 'Errore durante l\'aggiornamento della password dell\'utente' });
+  }
+};
+
+exports.createStanza = async (req, res) => {
+  try {
+    // Ottieni il token JWT dal cookie della richiesta
+    const token = req.cookies.token;
+
+    // Estrai direttamente l'username dal payload del token JWT
+    const decodedToken = jwt.verify(token, 'appartami');
+    const username = decodedToken.username;
+
+    // Cerca l'utente nel database tramite l'username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Utente non trovato' });
+    }
+
+    //crea codice univoco per la stanza
+    var Hashids = require('hashids'),
+    hashids = new Hashids('this is my salt',8);
+    var hash = hashids.encrypt(date.Now);
+
+    const apartments = [];
+    const people = [];
+
+    // crea una nuova stanza
+    const newStanza = new Stanza({hash, apartments, people, user });
+
+    await newStanza.save();
+
+    // Restituisci le informazioni aggiornate dell'utente
+    res.status(200).json(newStanza);
   } catch (error) {
     console.error('Errore durante l\'aggiornamento della password dell\'utente:', error);
     res.status(500).json({ error: 'Errore durante l\'aggiornamento della password dell\'utente' });

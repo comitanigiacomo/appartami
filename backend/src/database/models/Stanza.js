@@ -4,9 +4,10 @@ const Apartment = require('./Apartment');
 const User = require('./User');
 
 const stanzaSchema = new mongoose.Schema({
-    codice: { type: UUID, required: true },
+    codice: { type: String, required: true },
     appartamenti: {type: Apartment},
-    people : [{ type: User }]
+    people : [{ type: User }],
+    owner : {type: User}
   });
 
   const Stanza = mongoose.model('Stanza', stanzaSchema);
