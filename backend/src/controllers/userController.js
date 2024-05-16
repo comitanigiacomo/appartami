@@ -3,8 +3,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); // Importa il modulo jsonwebtoken
 const Stanza = require('../database/models/Stanza');
 
-
-
 // Controller per la registrazione degli utenti
 exports.registerUser = async (req, res) => {
   try {
@@ -29,6 +27,7 @@ exports.registerUser = async (req, res) => {
     res.status(500).json({ error: 'Failed to register user' });
   }
 };
+
 
 // Elimina un utente
 exports.deleteUser = async (req, res) => {
@@ -194,7 +193,7 @@ exports.createStanza = async (req, res) => {
 
     //crea codice univoco per la stanza
     var Hashids = require('hashids'),
-    hashids = new Hashids('this is my salt',8);
+    hashids = new Hashids('appartami',8);
     var hash = hashids.encrypt(date.Now);
 
     const apartments = [];
@@ -204,6 +203,36 @@ exports.createStanza = async (req, res) => {
     const newStanza = new Stanza({hash, apartments, people, user });
 
     await newStanza.save();
+
+    // Restituisci le informazioni aggiornate dell'utente
+    res.status(200).json(newStanza);
+  } catch (error) {
+    console.error('Errore durante l\'aggiornamento della password dell\'utente:', error);
+    res.status(500).json({ error: 'Errore durante l\'aggiornamento della password dell\'utente' });
+  }
+};
+
+exports.insertApartmentsInStanza = async (req, res) => {
+  try {
+    // Ottieni il token JWT dal cookie della richiesta
+    const token = req.cookies.token;
+
+    // Estrai direttamente l'username dal payload del token JWT
+    const decodedToken = jwt.verify(token, 'appartami');
+    const username = decodedToken.username;
+
+    // Cerca l'utente nel database tramite l'username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Utente non trovato' });
+    }
+
+   
+
+    
+
+    /
 
     // Restituisci le informazioni aggiornate dell'utente
     res.status(200).json(newStanza);
