@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 
 const preferenceSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Campo user con l'ID dell'utente
-  positivePreferences: [{ type: String }],
-  negativePreferences: [{ type: String }],
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to User model
+  positivePreferences: [{ type: String, maxlength: 100 }], // Add maxlength validation
+  negativePreferences: [{ type: String, maxlength: 100 }] // Add maxlength validation
 });
 
+// Add validation for array length
 preferenceSchema.path('positivePreferences').validate(arrayLimit, 'Too many positive preferences provided');
 preferenceSchema.path('negativePreferences').validate(arrayLimit, 'Too many negative preferences provided');
 
