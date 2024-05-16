@@ -16,7 +16,7 @@ export function NavComp({ isLoggedIn, handleLogout }) {
             {isLoggedIn ? (
               <>
                 <Button className='ml-3' variant="outline-light" onClick={handleLogout}>Sign out</Button>{' '}
-                <Nav.Link href="#userProfile">UserProfile</Nav.Link>
+                <Nav.Link href="#userProfile">My Profile</Nav.Link>
               </>
             ) : (
               <>

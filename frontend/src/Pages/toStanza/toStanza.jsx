@@ -13,7 +13,7 @@ import './toStanza.css';
 export function ToStanza() {
   return (
     <MDBContainer fluid className='p-4 p-md-5 background-radial-gradient overflow-hidden'>
-      <MDBRow className="justify-content-center align-items-center">
+      <MDBRow className="riga justify-content-center align-items-center">
         <MDBCol md='6' className='container text-center text-md-start d-flex flex-column justify-content-center p-5'>
           <ColSxToStanza />
           <ColDxToStanza />

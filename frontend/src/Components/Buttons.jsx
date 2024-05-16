@@ -19,11 +19,15 @@ export function Buttons({ isLoggedIn }) {
     }
   };
 
+  const handleDiscoverMore = () => {
+    window.location.href = 'https://github.com/comitanigiacomo/appartami';
+  };
+
   return (
     <div>
       <div className="buttons">
         <Button className="btn1" variant="primary" onClick={handleStartNow}>Inizia Ora</Button>{' '}
-        <Button className="btn2" variant="outline-light">Scopri di più</Button>{' '}
+        <Button className="btn2" variant="outline-light" onClick={handleDiscoverMore}>Scopri di più</Button>{' '}
       </div>
       {showAlert && (
         <div className="alert-container">
