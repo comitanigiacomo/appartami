@@ -8,6 +8,7 @@ import { SignIn } from './Pages/auth/signIn/signIn';
 import { UserProfilePage } from './Pages/userProfile/userProfilePage';
 import { Disposizioni } from './Pages/disposizioni/disposizioni';
 import { ToStanza } from './Pages/toStanza/toStanza';
+import { FormToStanza } from './Components/FormToStanza';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,6 +50,7 @@ function App() {
           <Route path="/signIn" element={<SignIn updateIsLoggedIn={updateIsLoggedIn} />} />
           <Route path="/disposizioni" element={<Disposizioni />} />
           <Route path="/chooseStanza" element={<ToStanza />} />
+          <Route path="/new-room" element={<FormToStanza />} />
         </Route>
       </Routes>
     </Router>

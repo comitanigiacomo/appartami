@@ -2,6 +2,8 @@ const User = require('../database/models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); // Importa il modulo jsonwebtoken
 const Stanza = require('../database/models/Stanza');
+const Hashids = require('hashids/cjs'); // Importa il modulo hashids
+
 
 // Controller per la registrazione degli utenti
 exports.registerUser = async (req, res) => {
@@ -180,6 +182,10 @@ exports.createStanza = async (req, res) => {
     // Ottieni il token JWT dal cookie della richiesta
     const token = req.cookies.token;
 
+    if (!token) {
+      return res.status(401).json({ error: 'Token non fornito' });
+    }
+
     // Estrai direttamente l'username dal payload del token JWT
     const decodedToken = jwt.verify(token, 'appartami');
     const username = decodedToken.username;
@@ -191,26 +197,32 @@ exports.createStanza = async (req, res) => {
       return res.status(404).json({ error: 'Utente non trovato' });
     }
 
-    //crea codice univoco per la stanza
-    var Hashids = require('hashids'),
-    hashids = new Hashids('appartami',8);
-    var hash = hashids.encrypt(date.Now);
+    // Crea codice univoco per la stanza
+    const hashids = new Hashids('appartami', 8);
+    const hash = hashids.encode(Date.now());
 
     const apartments = [];
     const people = [];
 
-    // crea una nuova stanza
-    const newStanza = new Stanza({hash, apartments, people, user });
+    // Crea una nuova stanza
+    const newStanza = new Stanza({
+      hash,// Utilizziamo il codice come hash
+      apartments,
+      people,
+      owner: user._id
+    });
 
     await newStanza.save();
 
-    // Restituisci le informazioni aggiornate dell'utente
-    res.status(200).json(newStanza);
+    // Restituisci le informazioni aggiornate della stanza
+    res.status(201).json(newStanza); // Usare 201 per la creazione
+
   } catch (error) {
-    console.error('Errore durante l\'aggiornamento della password dell\'utente:', error);
-    res.status(500).json({ error: 'Errore durante l\'aggiornamento della password dell\'utente' });
+    console.error('Errore durante la creazione della stanza:', error);
+    res.status(500).json({ error: 'Errore durante la creazione della stanza' });
   }
 };
+
 
 exports.insertApartmentsInStanza = async (req, res) => {
   try {

@@ -22,7 +22,6 @@ connectToMongoDB()
 
     // Middleware per i cookie e la verifica del token
     app.use('/api/auth', authRoutes); 
-
     app.use(cookieParser());
     app.use(verifyToken);
 
