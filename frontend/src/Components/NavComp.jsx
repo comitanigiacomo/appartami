@@ -12,9 +12,6 @@ export function NavComp({ isLoggedIn, handleLogout }) {
         <Container>
           <img style={{ borderRadius: '50%', marginRight: '20px' }} src={image} alt="logo" />
           <Navbar.Brand href="#/">Appartami</Navbar.Brand>
-          <Nav className="me-auto">
-            {isLoggedIn && <Nav.Link href="#users">Users</Nav.Link>}
-          </Nav>
           <Nav>
             {isLoggedIn ? (
               <>

@@ -9,7 +9,7 @@ export function Buttons({ isLoggedIn }) {
 
   const handleStartNow = () => {
     if (isLoggedIn) {
-      navigate('/disposizioni');
+      navigate('/chooseStanza');
     } else {
       setShowAlert(true);
       setTimeout(() => {
