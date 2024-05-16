@@ -32,4 +32,7 @@ router.post('/user/insertApartmentsInStanza', UserController.insertApartmentsInS
 // Route for adding people to a room
 router.post('/user/insertPeopleInStanza', UserController.insertPeopleInStanza);
 
+// Definisci la route per ottenere tutte le stanze di un utente
+router.get('/user/stanze', UserController.getUserStanze);
+
 module.exports = router;

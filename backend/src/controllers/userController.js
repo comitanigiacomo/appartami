@@ -321,3 +321,40 @@ exports.insertPeopleInStanza = async (req, res) => {
     res.status(500).json({ error: 'Error adding people to room' });
   }
 };
+
+exports.getUserStanze = async (req, res) => {
+  try {
+    // Ottieni il token JWT dal cookie della richiesta
+    const token = req.cookies.token;
+
+    // Verifica se il token è presente
+    if (!token) {
+      return res.status(401).json({ error: 'Token non fornito' });
+    }
+
+    // Decodifica il token JWT per ottenere l'username
+    const decodedToken = jwt.verify(token, 'appartami');
+    const username = decodedToken.username;
+
+    // Trova l'utente nel database tramite l'username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Utente non trovato' });
+    }
+
+    // Trova tutte le stanze in cui l'utente è owner o membro
+    const stanze = await Stanza.find({
+      $or: [
+        { owner: user._id },
+        { people: user._id }
+      ]
+    });
+
+    // Restituisci l'elenco delle stanze trovate
+    res.status(200).json(stanze);
+  } catch (error) {
+    console.error('Errore durante il recupero delle stanze dell\'utente:', error);
+    res.status(500).json({ error: 'Errore durante il recupero delle stanze dell\'utente' });
+  }
+};
