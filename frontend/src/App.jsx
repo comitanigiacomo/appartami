@@ -51,7 +51,7 @@ function App() {
           <Route path="/signIn" element={<SignIn updateIsLoggedIn={updateIsLoggedIn} />} />
           <Route path="/disposizioni" element={<Disposizioni />} />
           <Route path="/chooseStanza" element={<ToStanza />} />
-          <Route path="/new-room" element={<PersonalRoom />} />
+          <Route path="/my-room" element={<PersonalRoom />} />
         </Route>
       </Routes>
     </Router>

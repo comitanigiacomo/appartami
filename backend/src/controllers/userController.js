@@ -322,6 +322,7 @@ exports.insertPeopleInStanza = async (req, res) => {
   }
 };
 
+// Restituisce tutte le stanze di cui fa parte un utente, comprese quelle di cui è owner 
 exports.getUserStanze = async (req, res) => {
   try {
     // Ottieni il token JWT dal cookie della richiesta
@@ -356,5 +357,52 @@ exports.getUserStanze = async (req, res) => {
   } catch (error) {
     console.error('Errore durante il recupero delle stanze dell\'utente:', error);
     res.status(500).json({ error: 'Errore durante il recupero delle stanze dell\'utente' });
+  }
+};
+
+// Dato il codice di una stanza, la restituisce
+exports.getStanzaByHash = async (req, res) => {
+  try {
+    // Ottieni il token JWT dal cookie della richiesta
+    const token = req.cookies.token;
+
+    // Verifica se il token è presente
+    if (!token) {
+      return res.status(401).json({ error: 'Token non fornito' });
+    }
+
+    // Decodifica il token JWT per ottenere l'username
+    const decodedToken = jwt.verify(token, 'appartami');
+    const username = decodedToken.username;
+
+    // Trova l'utente nel database tramite l'username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Utente non trovato' });
+    }
+
+    // Ottieni il codice della stanza dalla richiesta
+    const { hash } = req.params;
+
+    // Trova la stanza nel database tramite il codice (hash)
+    const stanza = await Stanza.findOne({ hash }).populate('apartments people owner');
+
+    if (!stanza) {
+      return res.status(404).json({ error: 'Stanza non trovata' });
+    }
+
+    // Verifica se l'utente è il proprietario o un membro della stanza
+    const isAuthorized = stanza.owner.equals(user._id) || stanza.people.some(person => person.equals(user._id));
+
+    if (!isAuthorized) {
+      return res.status(403).json({ error: 'Accesso non autorizzato' });
+    }
+
+    // Restituisci la stanza trovata
+    res.status(200).json(stanza);
+  } catch (error) {
+    console.error('Errore durante il recupero della stanza:', error);
+    res.status(500).json({ error: 'Errore durante il recupero della stanza' });
   }
 };
