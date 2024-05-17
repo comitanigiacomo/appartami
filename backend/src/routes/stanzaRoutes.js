@@ -13,4 +13,9 @@ router.delete('/:hash/delete', stanzaController.deleteRoom);
 //Route che ritorna i partecipanti della stanza
 router.get('/:hash/participants', stanzaController.getRoomParticipants);
 
+
+// Route per eliminare un appartamento dalla stanza
+router.delete('/:hash/delete-apartment/:apartmentId', stanzaController.deleteApartmentFromRoom);
+
+
 module.exports = router;
