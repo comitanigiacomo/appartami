@@ -175,3 +175,47 @@ exports.deleteRoom = async (req, res) => {
         res.status(500).json({ error: 'Errore durante l\'eliminazione della stanza' });
     }
 };
+
+exports.getRoomParticipants = async (req, res) => {
+    try {
+        // Ottieni il token JWT dal cookie della richiesta
+        const token = req.cookies.token;
+
+        // Verifica se il token è presente
+        if (!token) {
+            return res.status(401).json({ error: 'Token non fornito' });
+        }
+
+        // Decodifica il token JWT per ottenere l'username
+        const decodedToken = jwt.verify(token, 'appartami');
+        const username = decodedToken.username;
+
+        // Trova l'utente nel database tramite l'username
+        const user = await User.findOne({ username });
+
+        if (!user) {
+            return res.status(404).json({ error: 'Utente non trovato' });
+        }
+
+        // Ottieni il codice della stanza dalla richiesta
+        const { hash } = req.params;
+
+        // Trova la stanza nel database tramite il codice (hash)
+        const stanza = await Stanza.findOne({ hash }).populate('people');
+
+        if (!stanza) {
+            return res.status(404).json({ error: 'Stanza non trovata' });
+        }
+
+        // Verifica se l'utente è il proprietario della stanza
+        if (!stanza.owner.equals(user._id)) {
+            return res.status(403).json({ error: 'Accesso non autorizzato' });
+        }
+
+        // Restituisci i partecipanti della stanza
+        res.status(200).json({ participants: stanza.people });
+    } catch (error) {
+        console.error('Errore durante il recupero dei partecipanti della stanza:', error);
+        res.status(500).json({ error: 'Errore durante il recupero dei partecipanti della stanza' });
+    }
+};

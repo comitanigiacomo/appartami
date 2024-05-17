@@ -10,4 +10,7 @@ router.post('/:hash/people', stanzaController.addPeopleToRoom);
 // Definizione della route per eliminare una stanza
 router.delete('/:hash/delete', stanzaController.deleteRoom);
 
+//Route che ritorna i partecipanti della stanza
+router.get('/:hash/participants', stanzaController.getRoomParticipants);
+
 module.exports = router;
