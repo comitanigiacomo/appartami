@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import './personalRoom.css';
+import { Apartments } from '../../Components/Apartments';
 
 export function PersonalRoom() {
   const [stanza, setStanza] = useState(null);
@@ -15,16 +17,11 @@ export function PersonalRoom() {
   }
 
   return (
-    <div>
+    <div className='container'>
       <h1>Dettagli della Stanza</h1>
       <p><strong>Codice:</strong> {stanza.hash}</p>
       <p><strong>Proprietario:</strong> {stanza.owner.username}</p>
-      <h2>Appartamenti</h2>
-      <ul>
-        {stanza.apartments.map(apartment => (
-          <li key={apartment._id}>{apartment.name} - {apartment.location}</li>
-        ))}
-      </ul>
+      <Apartments apartments={stanza.apartments} />
       <h2>Persone</h2>
       <ul>
         {stanza.people.map(person => (
