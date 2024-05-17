@@ -18,10 +18,9 @@ export function PersonalRoom() {
 
   return (
     <div className='container'>
-      <h1>Dettagli della Stanza</h1>
       <p><strong>Codice:</strong> {stanza.hash}</p>
       <p><strong>Proprietario:</strong> {stanza.owner.username}</p>
-      <Apartments apartments={stanza.apartments} />
+        <Apartments apartments={stanza.apartments} />
       <h2>Persone</h2>
       <ul>
         {stanza.people.map(person => (

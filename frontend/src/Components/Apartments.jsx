@@ -3,7 +3,7 @@ import { ApartmentCard } from './ApartmentCard';
 
 export function Apartments({ apartments }) {
     return (
-        <div>
+        <div className='appartamenti'>
             {apartments.map(apartment => (
                 <ApartmentCard
                     key={apartment._id}
