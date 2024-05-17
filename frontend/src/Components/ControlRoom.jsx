@@ -29,8 +29,6 @@ export function ControlRoom({ onAddApartment, onAddUser, onSeeParticipants, onDe
   const seeParticipants = async () => {
     try {
       await onSeeParticipants();
-      setAlertMessage('Partecipanti visualizzati con successo!');
-      setShowAlert(true);
     } catch (error) {
       console.error('Errore durante la visualizzazione dei partecipanti:', error);
     }

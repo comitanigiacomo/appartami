@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import './personalRoom.css';
 import { Apartments } from '../../Components/Apartments';
 import { ControlRoom } from '../../Components/ControlRoom';
+import { AddApartmentModal } from '../../Components/AddApartmentModal';
 import Alert from 'react-bootstrap/Alert';
 
 export function PersonalRoom() {
   const [stanza, setStanza] = useState(null);
   const [participants, setParticipants] = useState([]);
+  const [showAddApartmentModal, setShowAddApartmentModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +19,7 @@ export function PersonalRoom() {
     }
   }, []);
 
-  const handleAddApartment = async () => {
+  const handleAddApartment = async (apartmentData) => {
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/api/stanza/${stanza.hash}/add-apartments`, {
@@ -26,11 +28,12 @@ export function PersonalRoom() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ apartmentIds: [/* inserisci gli ID degli appartamenti da aggiungere */] })
+        body: JSON.stringify(apartmentData)
       });
       if (response.ok) {
         const updatedStanza = await response.json();
         setStanza(updatedStanza);
+        setShowAddApartmentModal(false); // Chiudi il modal dopo aver aggiunto l'appartamento
       } else {
         throw new Error('Errore durante l\'aggiunta degli appartamenti');
       }
@@ -112,7 +115,12 @@ export function PersonalRoom() {
     <div className='container'>
       <p><strong>Codice:</strong> {stanza.hash}</p>
       <p><strong>Proprietario:</strong> {stanza.owner.username}</p>
-      <ControlRoom onAddApartment={handleAddApartment} onAddUser={handleAddUser} onDeleteRoom={deleteRoom} onSeeParticipants={seeParticipants} />
+      <ControlRoom
+        onAddApartment={() => setShowAddApartmentModal(true)}
+        onAddUser={handleAddUser}
+        onDeleteRoom={deleteRoom}
+        onSeeParticipants={seeParticipants}
+      />
       <Apartments apartments={stanza.apartments} />
       <div>
         <h3>Partecipanti</h3>
@@ -122,6 +130,11 @@ export function PersonalRoom() {
           ))}
         </ul>
       </div>
+      <AddApartmentModal
+        show={showAddApartmentModal}
+        handleClose={() => setShowAddApartmentModal(false)}
+        handleAddApartment={handleAddApartment}
+      />
     </div>
   );
 }
