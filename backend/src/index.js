@@ -9,6 +9,7 @@ const userRoutes = require('./routes/userRoutes.js');
 const apartmentRoutes = require('./routes/apartmentRoutes.js');
 const preferenceRoutes = require('./routes/preferenceRoutes.js');
 const userDistributionRoutes = require('./routes/userDistributionRoutes.js');
+const stanzaRoutes = require('./routes/stanzaRoutes.js')
 const authRoutes = require('./routes/authRoutes.js');
 
 const PORT = process.env.PORT || 8080; 
@@ -29,6 +30,7 @@ connectToMongoDB()
     app.use('/api/users', userRoutes);
     app.use('/api/preferences', preferenceRoutes);
     app.use('/api/apartments', apartmentRoutes);
+    app.use('/api/stanza', stanzaRoutes);
     app.use('/api', userDistributionRoutes);
 
     // Esegui il server Express solo dopo aver stabilito la connessione al database
