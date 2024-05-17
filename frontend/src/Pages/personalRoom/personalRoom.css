@@ -1,17 +1,65 @@
+html{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
 .main {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    align-items: center; /* Centra il contenuto verticalmente */
+    padding: 20px; /* Aggiungi padding per una migliore spaziatura */
 }
 
 .container {
-    flex: 1;
+    max-width: 800px; /* Imposta una larghezza massima per il contenitore */
+    width: 100%; /* Fai sì che il contenitore si adatti alla larghezza massima */
 }
 
 .appartamenti {
     display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Permette ai div di avvolgersi quando la larghezza è limitata */
 }
 
 .appartamenti div {
-    margin-left: 5px;
-    margin-right: 5px;
+    margin: 5px; /* Riduci il margine tra gli appartamenti */
+}
+
+.user-card {
+    width: 50px; /* Imposta una larghezza fissa per le User Cards */
+    margin: 15px; /* Aggiungi margine tra le User Cards */
+    padding: 10px; /* Aggiungi padding per uno spazio interno */
+    border: 1px solid #ccc; /* Aggiungi un bordo per separare le User Cards */
+    border-radius: 5px; /* Aggiungi bordi arrotondati */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Aggiungi una leggera ombra */
+}
+
+.utenti {
+    display: grid; /* Utilizza la griglia CSS per disporre gli elementi */
+    grid-template-columns: repeat(3, 1fr); /* Imposta esattamente tre colonne con larghezza flessibile */
+    gap: 10px; /* Aggiungi uno spazio tra gli elementi */
+    justify-content: center; /* Centra gli elementi lungo l'asse principale */
+    padding: 30px;
+}
+
+.utenti ul {
+    width: 100%; /* Occupa tutta la larghezza del contenitore */
+    margin: 0; /* Rimuovi il margine */
+}
+
+.container p {
+    color: white;
+    text-align: center;
+}
+
+.container h2 {
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.controls {
+    margin-bottom: 30px;
 }
