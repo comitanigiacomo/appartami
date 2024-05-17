@@ -7,8 +7,7 @@ import Alert from 'react-bootstrap/Alert';
 
 export function PersonalRoom() {
   const [stanza, setStanza] = useState(null);
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
+  const [participants, setParticipants] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -65,22 +64,21 @@ export function PersonalRoom() {
   const seeParticipants = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/stanza/${stanza.hash}/people`, {
-        method: 'POST',
+      const response = await fetch(`/api/stanza/${stanza.hash}/participants`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ peopleIds: [/* inserisci gli ID degli utenti da aggiungere */] })
+        }
       });
       if (response.ok) {
-        const updatedStanza = await response.json();
-        setStanza(updatedStanza);
+        const data = await response.json();
+        setParticipants(data.participants);
       } else {
-        throw new Error('Errore durante l\'aggiunta degli utenti');
+        throw new Error('Errore durante la visualizzazione dei partecipanti');
       }
     } catch (error) {
-      console.error('Errore durante l\'aggiunta degli utenti:', error);
+      console.error('Errore durante la visualizzazione dei partecipanti:', error);
     }
   };
 
@@ -95,11 +93,9 @@ export function PersonalRoom() {
         }
       });
       if (response.ok) {
-        setAlertMessage('Stanza eliminata con successo!');
-        setShowAlert(true);
         setTimeout(() => {
           navigate('/');
-        }, 1000); // Reindirizza dopo 3 secondi
+        }, 3000); // Reindirizza dopo 3 secondi
       } else {
         throw new Error('Errore durante l\'eliminazione della stanza');
       }
@@ -118,6 +114,14 @@ export function PersonalRoom() {
       <p><strong>Proprietario:</strong> {stanza.owner.username}</p>
       <ControlRoom onAddApartment={handleAddApartment} onAddUser={handleAddUser} onDeleteRoom={deleteRoom} onSeeParticipants={seeParticipants} />
       <Apartments apartments={stanza.apartments} />
+      <div>
+        <h3>Partecipanti</h3>
+        <ul>
+          {participants.map(participant => (
+            <li key={participant._id}>{participant.username}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
