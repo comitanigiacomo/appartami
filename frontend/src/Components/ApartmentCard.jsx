@@ -13,6 +13,7 @@ export function ApartmentCard({ name, description }) {
           {description}
         </Card.Text>
         <Button variant="primary">View Apartment</Button>
+        <Button variant="danger">Delete Apartment</Button>
       </Card.Body>
     </Card>
   );
