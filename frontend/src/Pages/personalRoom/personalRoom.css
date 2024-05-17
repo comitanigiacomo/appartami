@@ -1,13 +1,18 @@
-html{
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+html, body, #root {
+    height: 100%; /* Imposta l'altezza di html, body e #root al 100% della finestra */
+    margin: 0; /* Rimuovi il margine predefinito */
+    padding: 0; /* Rimuovi il padding predefinito */
+}
+
+body {
+    display: flex; /* Utilizza flexbox per l'allineamento */
+    flex-direction: column; /* Imposta la direzione flessibile a colonna */
 }
 
 .main {
+    flex: 1; /* Fai espandere .main per riempire lo spazio disponibile */
     display: flex;
     flex-direction: column;
-    flex: 1;
     align-items: center; /* Centra il contenuto verticalmente */
     padding: 20px; /* Aggiungi padding per una migliore spaziatura */
 }
@@ -15,6 +20,7 @@ html{
 .container {
     max-width: 800px; /* Imposta una larghezza massima per il contenitore */
     width: 100%; /* Fai sì che il contenitore si adatti alla larghezza massima */
+    flex: 1; /* Fai espandere il contenitore per riempire lo spazio disponibile */
 }
 
 .appartamenti {
@@ -63,3 +69,4 @@ html{
 .controls {
     margin-bottom: 30px;
 }
+
