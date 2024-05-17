@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const addApartments = require('../controllers/addApartments');
+const stanzaController = require('../controllers/stanzaController')
 
-router.post('/stanza/:hash/add-apartments', addApartments);
+router.post('/:hash/add-apartments', stanzaController.addApartments);
 
 module.exports = router;

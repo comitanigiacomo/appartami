@@ -3,7 +3,7 @@ const Stanza = require('../database/models/Stanza');
 const Apartment = require('../database/models/Apartment');
 const User = require('../database/models/User');
 
-const addApartments = async (req, res) => {
+exports.addApartments = async (req, res) => {
   try {
     // Ottieni il token JWT dal cookie della richiesta
     const token = req.cookies.token;
@@ -65,5 +65,3 @@ const addApartments = async (req, res) => {
     res.status(500).json({ error: 'Errore durante l\'aggiunta degli appartamenti alla stanza' });
   }
 };
-
-module.exports = addApartments;
