@@ -230,11 +230,11 @@ exports.deleteApartmentFromRoom = async (req, res) => {
             return res.status(404).json({ error: 'Utente non trovato' });
         }
 
-        // Ottieni il codice della stanza dalla richiesta
+        // Ottieni il codice della stanza e l'ID dell'appartamento dalla richiesta
         const { hash, apartmentId } = req.params;
 
         // Trova la stanza nel database tramite il codice (hash)
-        const stanza = await Stanza.findOne({ hash });
+        const stanza = await Stanza.findOne({ hash }).populate('apartments');
 
         if (!stanza) {
             return res.status(404).json({ error: 'Stanza non trovata' });
@@ -246,7 +246,7 @@ exports.deleteApartmentFromRoom = async (req, res) => {
         }
 
         // Verifica se l'appartamento è presente nella stanza
-        const apartmentIndex = stanza.apartments.indexOf(apartmentId);
+        const apartmentIndex = stanza.apartments.findIndex(apartment => apartment._id.equals(apartmentId));
         if (apartmentIndex === -1) {
             return res.status(404).json({ error: 'Appartamento non trovato nella stanza' });
         }
@@ -257,7 +257,6 @@ exports.deleteApartmentFromRoom = async (req, res) => {
 
         // Rimuovi l'appartamento dal database
         await Apartment.findByIdAndDelete(apartmentId);
-
 
         // Restituisci la stanza aggiornata
         res.status(200).json(stanza);

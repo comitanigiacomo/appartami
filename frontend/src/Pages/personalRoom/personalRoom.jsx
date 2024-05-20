@@ -18,6 +18,33 @@ export function PersonalRoom() {
     }
   }, []);
 
+  useEffect(() => {
+    if (stanza) {
+      localStorage.setItem('stanza', JSON.stringify(stanza));
+    }
+  }, [stanza]);
+
+  const fetchStanza = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/users/stanza/${stanza.hash}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.ok) {
+        const updatedStanza = await response.json();
+        setStanza(updatedStanza);
+      } else {
+        throw new Error('Errore durante il recupero della stanza aggiornata');
+      }
+    } catch (error) {
+      console.error('Errore durante il recupero della stanza aggiornata:', error);
+    }
+  };
+
   const handleAddApartment = async (apartmentData) => {
     try {
       const token = localStorage.getItem('token');
@@ -30,8 +57,7 @@ export function PersonalRoom() {
         body: JSON.stringify(apartmentData)
       });
       if (response.ok) {
-        const updatedStanza = await response.json();
-        setStanza(updatedStanza);
+        await fetchStanza(); // Recupera la stanza aggiornata dal server
         setShowAddApartmentModal(false); // Chiudi il modal dopo aver aggiunto l'appartamento
       } else {
         throw new Error('Errore durante l\'aggiunta degli appartamenti');
@@ -41,11 +67,24 @@ export function PersonalRoom() {
     }
   };
 
-  const handleDeleteApartment = (deletedApartmentId) => {
-    setStanza((prevStanza) => ({
-      ...prevStanza,
-      apartments: prevStanza.apartments.filter(apartment => apartment._id !== deletedApartmentId)
-    }));
+  const handleDeleteApartment = async (deletedApartmentId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/stanza/${stanza.hash}/delete-apartment/${deletedApartmentId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.ok) {
+        await fetchStanza(); // Recupera la stanza aggiornata dal server
+      } else {
+        throw new Error('Errore durante l\'eliminazione dell\'appartamento');
+      }
+    } catch (error) {
+      console.error('Errore durante l\'eliminazione dell\'appartamento:', error);
+    }
   };
 
   const handleAddUser = async () => {
@@ -60,8 +99,7 @@ export function PersonalRoom() {
         body: JSON.stringify({ peopleIds: [/* inserisci gli ID degli utenti da aggiungere */] })
       });
       if (response.ok) {
-        const updatedStanza = await response.json();
-        setStanza(updatedStanza);
+        await fetchStanza(); // Recupera la stanza aggiornata dal server
       } else {
         throw new Error('Errore durante l\'aggiunta degli utenti');
       }

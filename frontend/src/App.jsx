@@ -8,7 +8,6 @@ import { SignIn } from './Pages/auth/signIn/signIn';
 import { UserProfilePage } from './Pages/userProfile/userProfilePage';
 import { Disposizioni } from './Pages/disposizioni/disposizioni';
 import { ToStanza } from './Pages/toStanza/toStanza';
-import { FormToStanza } from './Components/FormToStanza';
 import { PersonalRoom } from './Pages/personalRoom/personalRoom';
 
 function App() {

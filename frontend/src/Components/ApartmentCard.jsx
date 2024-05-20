@@ -25,7 +25,7 @@ export function ApartmentCard({ name, description, roomHash, apartmentId, onDele
   };
 
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card style={{ width: '18rem', margin: '10px' }}>
       <Card.Img variant="top" src={image} />
       <Card.Body>
         <Card.Title>{name}</Card.Title>
@@ -33,7 +33,7 @@ export function ApartmentCard({ name, description, roomHash, apartmentId, onDele
           {description}
         </Card.Text>
         <Button variant="primary">View Apartment</Button>
-        <Button variant="danger" onClick={handleDelete}>Delete Apartment</Button>
+        <Button variant="danger" onClick={handleDelete} style={{ marginLeft: '10px' }}>Delete Apartment</Button>
       </Card.Body>
     </Card>
   );
