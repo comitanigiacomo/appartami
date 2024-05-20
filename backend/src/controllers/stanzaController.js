@@ -255,6 +255,10 @@ exports.deleteApartmentFromRoom = async (req, res) => {
         stanza.apartments.splice(apartmentIndex, 1);
         await stanza.save();
 
+        // Rimuovi l'appartamento dal database
+        await Apartment.findByIdAndDelete(apartmentId);
+
+
         // Restituisci la stanza aggiornata
         res.status(200).json(stanza);
     } catch (error) {

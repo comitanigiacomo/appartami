@@ -41,6 +41,13 @@ export function PersonalRoom() {
     }
   };
 
+  const handleDeleteApartment = (deletedApartmentId) => {
+    setStanza((prevStanza) => ({
+      ...prevStanza,
+      apartments: prevStanza.apartments.filter(apartment => apartment._id !== deletedApartmentId)
+    }));
+  };
+
   const handleAddUser = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -120,7 +127,7 @@ export function PersonalRoom() {
         onDeleteRoom={deleteRoom}
         onSeeParticipants={seeParticipants}
       />
-      <Apartments apartments={stanza.apartments} />
+        <Apartments apartments={stanza.apartments} roomHash={stanza.hash} onDeleteApartment={handleDeleteApartment} />
       <div>
         <h3>Partecipanti</h3>
         <ul>
