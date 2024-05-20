@@ -57,6 +57,7 @@ export function PersonalRoom() {
         body: JSON.stringify(apartmentData)
       });
       if (response.ok) {
+        console.log(response)
         await fetchStanza(); // Recupera la stanza aggiornata dal server
         setShowAddApartmentModal(false); // Chiudi il modal dopo aver aggiunto l'appartamento
       } else {
@@ -77,8 +78,11 @@ export function PersonalRoom() {
           'Authorization': `Bearer ${token}`
         }
       });
-      if (response.ok) {
-        await fetchStanza(); // Recupera la stanza aggiornata dal server
+      //if (response.ok) {
+      if (response) {
+        console.log('oooook')
+        console.log(response)
+        await fetchStanza(); // Remove the semicolon and add a comma here
       } else {
         throw new Error('Errore durante l\'eliminazione dell\'appartamento');
       }
