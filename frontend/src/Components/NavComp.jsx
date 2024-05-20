@@ -4,6 +4,8 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import image from '../images/logo.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons'; 
 
 export function NavComp({ isLoggedIn, handleLogout }) {
   return (
@@ -20,7 +22,10 @@ export function NavComp({ isLoggedIn, handleLogout }) {
               </>
             ) : (
               <>
-                <Button className='mr-3' href="#signIn" variant="primary">Sign in</Button>{' '}
+                <Button className='mr-3' href="#signIn" variant="primary">
+                  <FontAwesomeIcon icon={faUser} /> {/* Usa l'icona importata */}
+                  Sign in
+                </Button>{' '}
                 <Button className='ml-3' href="#signUp" variant="outline-light">Sign up</Button>{' '}
               </>
             )}

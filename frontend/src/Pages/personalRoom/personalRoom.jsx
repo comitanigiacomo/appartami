@@ -4,7 +4,6 @@ import './personalRoom.css';
 import { Apartments } from '../../Components/Apartments';
 import { ControlRoom } from '../../Components/ControlRoom';
 import { AddApartmentModal } from '../../Components/AddApartmentModal';
-import Alert from 'react-bootstrap/Alert';
 
 export function PersonalRoom() {
   const [stanza, setStanza] = useState(null);

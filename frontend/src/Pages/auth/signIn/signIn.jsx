@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBIcon } from 'mdb-react-ui-kit';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
-import './signIn.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleUser, faLock } from '@fortawesome/free-solid-svg-icons'; // Importa le icone specifiche
+import './signIn.css';
 
 export function SignIn({ updateIsLoggedIn }) {
   const navigate = useNavigate();
@@ -62,28 +64,34 @@ export function SignIn({ updateIsLoggedIn }) {
             <MDBCardBody className='p-5 d-flex flex-column align-items-center mx-auto w-100'>
               <h2 className="fw-bold mb-2 text-uppercase">Sign In</h2>
               <p className="text-white-50 mb-5">Please enter your username and password</p>
-              <MDBInput
-                wrapperClass='mb-4 mx-5 w-100'
-                labelClass='text-white'
-                label='Username'
-                id='username'
-                type='text'
-                size="lg"
-                name="username"
-                value={formData.username}
-                onChange={handleInputChange}
-              />
-              <MDBInput
-                wrapperClass='mb-4 mx-5 w-100'
-                labelClass='text-white'
-                label='Password'
-                id='password'
-                type='password'
-                size="lg"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-              />
+              <div className="d-flex align-items-center mb-4 mx-5 w-100">
+              <FontAwesomeIcon icon={faCircleUser} className="me-2 text-white" />
+                <MDBInput
+                  wrapperClass='w-100'
+                  labelClass='text-white'
+                  label='Username'
+                  id='username'
+                  type='text'
+                  size="lg"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="d-flex align-items-center mb-4 mx-5 w-100">
+                <FontAwesomeIcon icon={faLock} className="me-2 text-white" />
+                <MDBInput
+                  wrapperClass='w-100'
+                  labelClass='text-white'
+                  label='Password'
+                  id='password'
+                  type='password'
+                  size="lg"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                />
+              </div>
               <Button variant="outline-light" onClick={handleLogin} disabled={isLoading}>
                 {isLoading ? 'Loading...' : 'Login'}
               </Button>{' '}
