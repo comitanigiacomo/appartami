@@ -6,6 +6,7 @@ import { ControlRoom } from '../../Components/ControlRoom';
 import { AddApartmentModal } from '../../Components/AddApartmentModal';
 import Alert from 'react-bootstrap/Alert';
 import { UserSearchModal } from '../../Components/UserSearchModal';
+import { ParticipantsModal } from '../../Components/ParticipantsModal';
 
 
 export function PersonalRoom() {
@@ -13,6 +14,7 @@ export function PersonalRoom() {
   const [participants, setParticipants] = useState([]);
   const [showAddApartmentModal, setShowAddApartmentModal] = useState(false);
   const [showUserSearchModal, setShowUserSearchModal] = useState(false);
+  const [showParticipantsModal, setShowParticipantsModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -148,7 +150,7 @@ export function PersonalRoom() {
     debouncedHandleAddUser();
   }, [searchQuery, debouncedHandleAddUser]);
 
-  const seeParticipants = async () => {
+  const handleSeeParticipants = async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/api/stanza/${stanza.hash}/participants`, {
@@ -161,6 +163,7 @@ export function PersonalRoom() {
       if (response.ok) {
         const data = await response.json();
         setParticipants(data.participants);
+        setShowParticipantsModal(true); // Apre il modal dei partecipanti dopo aver ottenuto i dati
       } else {
         throw new Error('Errore durante la visualizzazione dei partecipanti');
       }
@@ -229,7 +232,7 @@ export function PersonalRoom() {
         onAddApartment={() => setShowAddApartmentModal(true)}
         onAddUser={() => setShowUserSearchModal(true)}
         onDeleteRoom={deleteRoom}
-        onSeeParticipants={seeParticipants}
+        onSeeParticipants={handleSeeParticipants}
       />
       <Apartments apartments={stanza.apartments} roomHash={stanza.hash} onDeleteApartment={handleDeleteApartment} />
       <div>
@@ -252,6 +255,11 @@ export function PersonalRoom() {
         setSearchQuery={setSearchQuery}
         searchResults={searchResults}
         handleAddPeopleToRoom={handleAddPeopleToRoom}
+      />
+      <ParticipantsModal
+        show={showParticipantsModal}
+        handleClose={() => setShowParticipantsModal(false)}
+        participants={participants}
       />
     </div>
   );
