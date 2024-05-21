@@ -6,11 +6,14 @@ import { ControlRoom } from '../../Components/ControlRoom';
 import { AddApartmentModal } from '../../Components/AddApartmentModal';
 import Alert from 'react-bootstrap/Alert';
 import { useCallback } from 'react';
+import { UserSearchModal } from '../../Components/UserSearchModal';
+import { Modal } from 'react-bootstrap/Modal';
 
 export function PersonalRoom() {
   const [stanza, setStanza] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [showAddApartmentModal, setShowAddApartmentModal] = useState(false);
+  const [showUserSearchModal, setShowUserSearchModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -199,30 +202,11 @@ export function PersonalRoom() {
       {showAlert && <Alert variant='success'>{alertMessage}</Alert>}
       <ControlRoom
         onAddApartment={() => setShowAddApartmentModal(true)}
-        onAddUser={handleAddUser}
+        onAddUser={() => setShowUserSearchModal(true)}
         onDeleteRoom={deleteRoom}
         onSeeParticipants={seeParticipants}
       />
-      {/* Aggiungi barra di ricerca per gli utenti */}
-      <div>
-        <input
-          type="text"
-          placeholder="Cerca utente per username"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button onClick={handleAddUser}>Cerca</button>
-      </div>
-      {/* Mostra risultati della ricerca */}
-      <div>
-        <h3>Risultati della ricerca</h3>
-        <ul>
-          {searchResults.map(user => (
-            <li key={user._id}>{user.username}</li>
-          ))}
-        </ul>
-      </div>
-        <Apartments apartments={stanza.apartments} roomHash={stanza.hash} onDeleteApartment={handleDeleteApartment} />
+      <Apartments apartments={stanza.apartments} roomHash={stanza.hash} onDeleteApartment={handleDeleteApartment} />
       <div>
         <h3>Partecipanti</h3>
         <ul>
@@ -235,6 +219,13 @@ export function PersonalRoom() {
         show={showAddApartmentModal}
         handleClose={() => setShowAddApartmentModal(false)}
         handleAddApartment={handleAddApartment}
+      />
+      <UserSearchModal
+        show={showUserSearchModal}
+        handleClose={() => setShowUserSearchModal(false)}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        searchResults={searchResults}
       />
     </div>
   );
