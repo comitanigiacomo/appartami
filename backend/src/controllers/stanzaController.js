@@ -266,3 +266,43 @@ exports.deleteApartmentFromRoom = async (req, res) => {
     }
 };
 
+exports.getPeopleFromApartment = async (req, res) => {
+    try {
+        // Ottieni il token JWT dal cookie della richiesta
+        const token = req.cookies.token;
+
+        // Verifica se il token è presente
+        if (!token) {
+            return res.status(401).json({ error: 'Token non fornito' });
+        }
+
+        // Decodifica il token JWT per ottenere l'username
+        const decodedToken = jwt.verify(token, 'appartami');
+        const username = decodedToken.username;
+
+        // Trova l'utente nel database tramite l'username
+        const user = await User.findOne({ username });
+
+        if (!user) {
+            return res.status(404).json({ error: 'Utente non trovato' });
+        }
+
+        // Ottieni l'ID dell'appartamento dalla richiesta
+        const { apartmentId } = req.params;
+
+        // Trova l'appartamento nel database tramite l'ID
+        const apartment = await Apartment.findById(apartmentId).populate('people');
+
+        if (!apartment) {
+            return res.status(404).json({ error: 'Appartamento non trovato' });
+        }
+
+        // Restituisci le persone all'interno dell'appartamento
+        res.status(200).json(apartment.people);
+    } catch (error) {
+        console.error('Errore durante il recupero delle persone dall\'appartamento:', error);
+        res.status(500).json({ error: 'Errore durante il recupero delle persone dall\'appartamento' });
+    }
+};
+
+

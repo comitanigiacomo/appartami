@@ -206,7 +206,6 @@ export function PersonalRoom() {
         body: JSON.stringify({ peopleIds: selectedUserIds })
       });
       if (response) {
-        console.log(response)
         setAlertMessage('Utenti aggiunti con successo!');
         setShowAlert(true);
         await fetchStanza(); // Recupera la stanza aggiornata dal server
@@ -235,14 +234,6 @@ export function PersonalRoom() {
         onSeeParticipants={handleSeeParticipants}
       />
       <Apartments apartments={stanza.apartments} roomHash={stanza.hash} onDeleteApartment={handleDeleteApartment} />
-      <div>
-        <h3>Partecipanti</h3>
-        <ul>
-          {participants.map(participant => (
-            <li key={participant._id}>{participant.username}</li>
-          ))}
-        </ul>
-      </div>
       <AddApartmentModal
         show={showAddApartmentModal}
         handleClose={() => setShowAddApartmentModal(false)}

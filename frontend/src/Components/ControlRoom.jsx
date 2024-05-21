@@ -40,7 +40,7 @@ export function ControlRoom({ onAddApartment, onAddUser, onSeeParticipants, onDe
         <Button className="btn1" variant="primary" onClick={handleAddApartment}>Aggiungi Appartamento</Button>{' '}
         <Button className="btn2" variant="outline-light" onClick={handleAddUser}>Aggiungi Utente</Button>{' '}
         <Button className="btn2" variant="primary" onClick={seeParticipants}>Visualizza Partecipanti</Button>{' '}
-        <Button className="btn2" variant="outline-danger" onClick={deleteRoom}>Elimina Stanza</Button>{' '}
+        <Button className="btn2" variant="outline-danger" onClick={deleteRoom}>Elimina Virtual Space</Button>{' '}
       </div>
     </div>
   );

@@ -76,10 +76,10 @@ export function FormToStanza() {
   return (
     <Form className="w-75">
       <Form.Group className="mb-3" controlId="formBasicRoomCode">
-        <Form.Label>Codice Stanza</Form.Label>
+        <Form.Label>Codice virtual space</Form.Label>
         <Form.Control
           type="text"
-          placeholder="Enter room code"
+          placeholder="Enter virtual space code"
           value={roomCode}
           onChange={handleRoomCodeChange}
         />
@@ -97,7 +97,7 @@ export function FormToStanza() {
         className="m-2 btn-lg"
         onClick={handleCreateRoom}
       >
-        Create new room
+        Create new virtual space
       </Button>
     </Form>
   );
