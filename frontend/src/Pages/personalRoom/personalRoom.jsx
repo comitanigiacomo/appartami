@@ -5,6 +5,7 @@ import { Apartments } from '../../Components/Apartments';
 import { ControlRoom } from '../../Components/ControlRoom';
 import { AddApartmentModal } from '../../Components/AddApartmentModal';
 import Alert from 'react-bootstrap/Alert';
+import { useCallback } from 'react';
 
 export function PersonalRoom() {
   const [stanza, setStanza] = useState(null);
@@ -100,9 +101,13 @@ export function PersonalRoom() {
     }
   };
 
-  const handleAddUser = async () => {
+  const handleAddUser = useCallback(async () => {
+    if (searchQuery.trim() === '') {
+      setSearchResults([]);
+      return;
+    }
+    
     try {
-      // Inizia la ricerca degli utenti
       const token = localStorage.getItem('token');
       const response = await fetch(`/api/users/search-users?searchQuery=${searchQuery}`, {
         method: 'GET',
@@ -120,7 +125,25 @@ export function PersonalRoom() {
     } catch (error) {
       console.error('Errore durante la ricerca degli utenti:', error);
     }
+  }, [searchQuery]);
+
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
   };
+
+  const debouncedHandleAddUser = useCallback(debounce(handleAddUser, 500), [handleAddUser]);
+
+  useEffect(() => {
+    debouncedHandleAddUser();
+  }, [searchQuery, debouncedHandleAddUser]);
 
   const seeParticipants = async () => {
     try {
