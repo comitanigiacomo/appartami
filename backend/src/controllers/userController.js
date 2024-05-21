@@ -406,3 +406,45 @@ exports.getStanzaByHash = async (req, res) => {
     res.status(500).json({ error: 'Errore durante il recupero della stanza' });
   }
 };
+
+exports.searchUsersByUsername = async (req, res) => {
+  try {
+    // Ottieni il token JWT dal cookie della richiesta
+    const token = req.cookies.token;
+
+    // Verifica se il token è presente
+    if (!token) {
+      return res.status(401).json({ error: 'Token non fornito' });
+    }
+
+    // Decodifica il token JWT per ottenere l'username dell'utente autenticato
+    const decodedToken = jwt.verify(token, 'appartami');
+    const username = decodedToken.username;
+
+    // Trova l'utente nel database tramite l'username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Utente autenticato non trovato' });
+    }
+
+    // Ottieni il termine di ricerca dalla query string
+    const { searchQuery } = req.query;
+
+    if (!searchQuery) {
+      return res.status(400).json({ error: 'Termine di ricerca non fornito' });
+    }
+
+    // Cerca gli utenti nel database tramite il termine di ricerca
+    const users = await User.find({ username: new RegExp(searchQuery, 'i') });
+
+    // Restituisci gli utenti trovati
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Errore durante la ricerca degli utenti:', error);
+    res.status(500).json({ error: 'Errore durante la ricerca degli utenti' });
+  }
+};
+
+
+
