@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Alert from 'react-bootstrap/Alert';
 
 export function ControlRoom({ onAddApartment, onAddUser, onSeeParticipants, onDeleteRoom }) {
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-
   const handleAddApartment = async () => {
     try {
       await onAddApartment();
-      setAlertMessage('Appartamento aggiunto con successo!');
-      setShowAlert(true);
     } catch (error) {
       console.error('Errore durante l\'aggiunta degli appartamenti:', error);
     }
@@ -19,8 +13,6 @@ export function ControlRoom({ onAddApartment, onAddUser, onSeeParticipants, onDe
   const handleAddUser = async () => {
     try {
       await onAddUser();
-      setAlertMessage('Utente aggiunto con successo!');
-      setShowAlert(true);
     } catch (error) {
       console.error('Errore durante l\'aggiunta degli utenti:', error);
     }
@@ -37,8 +29,6 @@ export function ControlRoom({ onAddApartment, onAddUser, onSeeParticipants, onDe
   const deleteRoom = async () => {
     try {
       await onDeleteRoom();
-      setAlertMessage('Stanza eliminata con successo!');
-      setShowAlert(true);
     } catch (error) {
       console.error('Errore durante l\'eliminazione della stanza:', error);
     }
@@ -46,7 +36,6 @@ export function ControlRoom({ onAddApartment, onAddUser, onSeeParticipants, onDe
 
   return (
     <div className='controls'>
-      {showAlert && <Alert variant='success'>{alertMessage}</Alert>}
       <div className="buttons">
         <Button className="btn1" variant="primary" onClick={handleAddApartment}>Aggiungi Appartamento</Button>{' '}
         <Button className="btn2" variant="outline-light" onClick={handleAddUser}>Aggiungi Utente</Button>{' '}

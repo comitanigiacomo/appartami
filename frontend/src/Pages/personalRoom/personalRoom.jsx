@@ -4,11 +4,14 @@ import './personalRoom.css';
 import { Apartments } from '../../Components/Apartments';
 import { ControlRoom } from '../../Components/ControlRoom';
 import { AddApartmentModal } from '../../Components/AddApartmentModal';
+import Alert from 'react-bootstrap/Alert';
 
 export function PersonalRoom() {
   const [stanza, setStanza] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [showAddApartmentModal, setShowAddApartmentModal] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,6 +40,9 @@ export function PersonalRoom() {
       if (response.ok) {
         const updatedStanza = await response.json();
         setStanza(updatedStanza);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 2000);
       } else {
         throw new Error('Errore durante il recupero della stanza aggiornata');
       }
@@ -57,7 +63,8 @@ export function PersonalRoom() {
         body: JSON.stringify(apartmentData)
       });
       if (response.ok) {
-        console.log(response)
+        setAlertMessage('Appartamento aggiunto con successo!');
+        setShowAlert(true);
         await fetchStanza(); // Recupera la stanza aggiornata dal server
         setShowAddApartmentModal(false); // Chiudi il modal dopo aver aggiunto l'appartamento
       } else {
@@ -80,8 +87,8 @@ export function PersonalRoom() {
       });
       //if (response.ok) {
       if (response) {
-        console.log('oooook')
-        console.log(response)
+        setAlertMessage('Appartamento eliminato con successo!');
+        setShowAlert(true);
         await fetchStanza(); // Remove the semicolon and add a comma here
       } else {
         throw new Error('Errore durante l\'eliminazione dell\'appartamento');
@@ -103,6 +110,8 @@ export function PersonalRoom() {
         body: JSON.stringify({ peopleIds: [/* inserisci gli ID degli utenti da aggiungere */] })
       });
       if (response.ok) {
+        setAlertMessage('Utente aggiunto con successo!');
+        setShowAlert(true);
         await fetchStanza(); // Recupera la stanza aggiornata dal server
       } else {
         throw new Error('Errore durante l\'aggiunta degli utenti');
@@ -163,6 +172,7 @@ export function PersonalRoom() {
     <div className='container'>
       <p><strong>Codice:</strong> {stanza.hash}</p>
       <p><strong>Proprietario:</strong> {stanza.owner.username}</p>
+      {showAlert && <Alert variant='success'>{alertMessage}</Alert>}
       <ControlRoom
         onAddApartment={() => setShowAddApartmentModal(true)}
         onAddUser={handleAddUser}
