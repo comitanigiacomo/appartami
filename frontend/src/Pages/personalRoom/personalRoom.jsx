@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './personalRoom.css';
 import { Apartments } from '../../Components/Apartments';
 import { ControlRoom } from '../../Components/ControlRoom';
 import { AddApartmentModal } from '../../Components/AddApartmentModal';
 import Alert from 'react-bootstrap/Alert';
-import { useCallback } from 'react';
 import { UserSearchModal } from '../../Components/UserSearchModal';
-import { Modal } from 'react-bootstrap/Modal';
+
 
 export function PersonalRoom() {
   const [stanza, setStanza] = useState(null);
@@ -104,6 +103,7 @@ export function PersonalRoom() {
     }
   };
 
+  // serve per i risultati della barra di ricerca 
   const handleAddUser = useCallback(async () => {
     if (searchQuery.trim() === '') {
       setSearchResults([]);
@@ -191,6 +191,31 @@ export function PersonalRoom() {
     }
   };
 
+  const handleAddPeopleToRoom = async (selectedUserIds) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/stanza/${stanza.hash}/people`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ peopleIds: selectedUserIds })
+      });
+      if (response) {
+        console.log(response)
+        setAlertMessage('Utenti aggiunti con successo!');
+        setShowAlert(true);
+        await fetchStanza(); // Recupera la stanza aggiornata dal server
+        setShowUserSearchModal(false); // Chiudi il modal dopo aver aggiunto gli utenti
+      } else {
+        throw new Error('Errore durante l\'aggiunta degli utenti');
+      }
+    } catch (error) {
+      console.error('Errore durante l\'aggiunta degli utenti:', error);
+    }
+  };
+
   if (!stanza) {
     return <div>Loading...</div>;
   }
@@ -226,6 +251,7 @@ export function PersonalRoom() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         searchResults={searchResults}
+        handleAddPeopleToRoom={handleAddPeopleToRoom}
       />
     </div>
   );
