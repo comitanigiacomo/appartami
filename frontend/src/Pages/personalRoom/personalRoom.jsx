@@ -12,6 +12,8 @@ export function PersonalRoom() {
   const [showAddApartmentModal, setShowAddApartmentModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -100,24 +102,23 @@ export function PersonalRoom() {
 
   const handleAddUser = async () => {
     try {
+      // Inizia la ricerca degli utenti
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/stanza/${stanza.hash}/people`, {
-        method: 'POST',
+      const response = await fetch(`/api/users/search-users?searchQuery=${searchQuery}`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ peopleIds: [/* inserisci gli ID degli utenti da aggiungere */] })
+        }
       });
       if (response.ok) {
-        setAlertMessage('Utente aggiunto con successo!');
-        setShowAlert(true);
-        await fetchStanza(); // Recupera la stanza aggiornata dal server
+        const data = await response.json();
+        setSearchResults(data);
       } else {
-        throw new Error('Errore durante l\'aggiunta degli utenti');
+        throw new Error('Errore durante la ricerca degli utenti');
       }
     } catch (error) {
-      console.error('Errore durante l\'aggiunta degli utenti:', error);
+      console.error('Errore durante la ricerca degli utenti:', error);
     }
   };
 
@@ -179,6 +180,25 @@ export function PersonalRoom() {
         onDeleteRoom={deleteRoom}
         onSeeParticipants={seeParticipants}
       />
+      {/* Aggiungi barra di ricerca per gli utenti */}
+      <div>
+        <input
+          type="text"
+          placeholder="Cerca utente per username"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button onClick={handleAddUser}>Cerca</button>
+      </div>
+      {/* Mostra risultati della ricerca */}
+      <div>
+        <h3>Risultati della ricerca</h3>
+        <ul>
+          {searchResults.map(user => (
+            <li key={user._id}>{user.username}</li>
+          ))}
+        </ul>
+      </div>
         <Apartments apartments={stanza.apartments} roomHash={stanza.hash} onDeleteApartment={handleDeleteApartment} />
       <div>
         <h3>Partecipanti</h3>

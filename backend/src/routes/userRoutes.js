@@ -38,8 +38,7 @@ router.get('/user/stanze', UserController.getUserStanze);
 // Route per ottenere una stanza dato il suo codice 
 router.get('/stanza/:hash', UserController.getStanzaByHash);
 
-// Definisci la route per cercare gli utenti
+// Route per cercare gli utenti in base allo username 
 router.get('/search-users', UserController.searchUsersByUsername);
-
 
 module.exports = router;
