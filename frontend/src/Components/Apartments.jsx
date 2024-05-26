@@ -1,7 +1,8 @@
 import React from 'react';
 import { ApartmentCard } from './ApartmentCard';
 
-export function Apartments({ apartments, roomHash, onDeleteApartment }) {
+export function Apartments({ apartments, roomHash, onDeleteApartment, onViewApartment  }) {
+
   return (
     <div className='appartamenti'>
       {apartments.map(apartment => (
@@ -12,6 +13,7 @@ export function Apartments({ apartments, roomHash, onDeleteApartment }) {
           roomHash={roomHash}
           apartmentId={apartment._id}
           onDelete={onDeleteApartment}
+          onViewApartment={onViewApartment}
         />
       ))}
     </div>

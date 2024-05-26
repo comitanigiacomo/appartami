@@ -7,14 +7,16 @@ import { AddApartmentModal } from '../../Components/AddApartmentModal';
 import Alert from 'react-bootstrap/Alert';
 import { UserSearchModal } from '../../Components/UserSearchModal';
 import { ParticipantsModal } from '../../Components/ParticipantsModal';
-
+import { ApartmentParticipantsModal } from '../../Components/ApartmentParticipantsModal';
 
 export function PersonalRoom() {
   const [stanza, setStanza] = useState(null);
   const [participants, setParticipants] = useState([]);
+  const [apartmentParticipants, setApartmentParticipants] = useState([]);
   const [showAddApartmentModal, setShowAddApartmentModal] = useState(false);
   const [showUserSearchModal, setShowUserSearchModal] = useState(false);
   const [showParticipantsModal, setShowParticipantsModal] = useState(false);
+  const [showApartmentParticipantsModal, setShowApartmentParticipantsModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -83,6 +85,7 @@ export function PersonalRoom() {
   };
 
   const handleDeleteApartment = async (deletedApartmentId) => {
+    console.log(deletedApartmentId)
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/api/stanza/${stanza.hash}/delete-apartment/${deletedApartmentId}`, {
@@ -92,7 +95,6 @@ export function PersonalRoom() {
           'Authorization': `Bearer ${token}`
         }
       });
-      //if (response.ok) {
       if (response) {
         setAlertMessage('Appartamento eliminato con successo!');
         setShowAlert(true);
@@ -218,6 +220,27 @@ export function PersonalRoom() {
     }
   };
 
+  const handleViewApartment = useCallback(async (apartmentId) => {    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/stanza/apartment/${apartmentId}/people`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setApartmentParticipants(data);
+        setShowApartmentParticipantsModal(true); // Apre il modal dei partecipanti dopo aver ottenuto i dati
+      } else {
+        throw new Error('Errore durante la visualizzazione delle persone nell\'appartamento');
+      }
+    } catch (error) {
+      console.error('Errore durante la visualizzazione delle persone nell\'appartamento:', error);
+    }
+  }, []);
+
   if (!stanza) {
     return <div>Loading...</div>;
   }
@@ -233,7 +256,12 @@ export function PersonalRoom() {
         onDeleteRoom={deleteRoom}
         onSeeParticipants={handleSeeParticipants}
       />
-      <Apartments apartments={stanza.apartments} roomHash={stanza.hash} onDeleteApartment={handleDeleteApartment} />
+      <Apartments 
+        apartments={stanza.apartments} 
+        roomHash={stanza.hash} 
+        onDeleteApartment={handleDeleteApartment} 
+        onViewApartment={handleViewApartment}
+      />
       <AddApartmentModal
         show={showAddApartmentModal}
         handleClose={() => setShowAddApartmentModal(false)}
@@ -251,6 +279,11 @@ export function PersonalRoom() {
         show={showParticipantsModal}
         handleClose={() => setShowParticipantsModal(false)}
         participants={participants}
+      />
+      <ApartmentParticipantsModal
+        show={showApartmentParticipantsModal}
+        handleClose={() => setShowApartmentParticipantsModal(false)}
+        apartmentParticipants={apartmentParticipants}
       />
     </div>
   );

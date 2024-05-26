@@ -3,7 +3,19 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import image from '../images/piantaAppartamento.png';
 
-export function ApartmentCard({ name, description, roomHash, apartmentId, onDelete }) {
+export function ApartmentCard({ name, description, roomHash, apartmentId, onDelete, onViewApartment }) {
+
+
+  const handleViewApartment = async () => {
+    try {
+      // Passa l'ID dell'appartamento a onViewApartment
+      await onViewApartment(apartmentId);
+    } catch (error) {
+      console.error('Errore durante la visualizzazione dell\'appartamento:', error);
+    }
+  };
+
+
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -23,6 +35,7 @@ export function ApartmentCard({ name, description, roomHash, apartmentId, onDele
       console.error('Errore durante l\'eliminazione dell\'appartamento:', error);
     }
   };
+  
 
   return (
     <Card style={{ width: '18rem', margin: '10px' }}>
@@ -32,7 +45,7 @@ export function ApartmentCard({ name, description, roomHash, apartmentId, onDele
         <Card.Text>
           {description}
         </Card.Text>
-        <Button variant="primary">View Apartment</Button>
+        <Button variant="primary" onClick={handleViewApartment}>View Apartment</Button>
         <Button variant="danger" onClick={handleDelete} style={{ marginLeft: '10px' }}>Delete Apartment</Button>
       </Card.Body>
     </Card>
