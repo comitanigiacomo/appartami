@@ -28,8 +28,6 @@ export function FormToStanza() {
         credentials: 'include', // Include cookies in the request
       });
 
-      console.log(response);
-
       if (response.ok) {
         const stanza = await response.json();
         console.log('Stanza trovata:', stanza);

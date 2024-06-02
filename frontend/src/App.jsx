@@ -51,6 +51,7 @@ function App() {
           <Route path="/disposizioni" element={<Disposizioni />} />
           <Route path="/chooseStanza" element={<ToStanza />} />
           <Route path="/my-room" element={<PersonalRoom />} />
+          <Route path="/rooms/:hash" element={<PersonalRoom />} />
         </Route>
       </Routes>
     </Router>
