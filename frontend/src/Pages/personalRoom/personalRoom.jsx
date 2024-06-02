@@ -220,6 +220,32 @@ export function PersonalRoom() {
     }
   };
 
+  const handleRemoveParticipant = async (participantId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/stanza/${stanza.hash}/removePeople`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ peopleIds: [participantId] })
+      });
+      if (response.ok) {
+        setAlertMessage('Partecipante rimosso con successo!');
+        setShowAlert(true);
+        await fetchStanza(); // Aggiorna la stanza dopo la rimozione del partecipante
+        // Aggiorna direttamente lo stato dei partecipanti nel modal
+        setParticipants(prevParticipants => prevParticipants.filter(participant => participant._id !== participantId));
+      } else {
+        throw new Error('Errore durante la rimozione del partecipante');
+      }
+    } catch (error) {
+      console.error('Errore durante la rimozione del partecipante:', error);
+    }
+  };
+  
+
   const handleViewApartment = useCallback(async (apartmentId) => {    try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/api/stanza/apartment/${apartmentId}/people`, {
@@ -279,6 +305,7 @@ export function PersonalRoom() {
         show={showParticipantsModal}
         handleClose={() => setShowParticipantsModal(false)}
         participants={participants}
+        handleRemoveParticipant={handleRemoveParticipant}
       />
       <ApartmentParticipantsModal
         show={showApartmentParticipantsModal}

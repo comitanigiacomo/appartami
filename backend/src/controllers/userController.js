@@ -203,7 +203,7 @@ exports.createStanza = async (req, res) => {
 
     const { name } = req.body;
     const apartments = [];
-    const people = [];
+    const people = [user.id];
 
     // Crea una nuova stanza
     const newStanza = new Stanza({

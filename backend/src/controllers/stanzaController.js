@@ -118,6 +118,48 @@ exports.addPeopleToRoom = async (req, res) => {
     }
 };
 
+exports.removePeopleFromRoom = async (req, res) => {
+    try {
+        const token = req.cookies.token;
+        if (!token) {
+            return res.status(401).json({ error: 'Token non fornito' });
+        }
+
+        const decodedToken = jwt.verify(token, 'appartami');
+        const username = decodedToken.username;
+
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(404).json({ error: 'Utente non trovato' });
+        }
+
+        const { hash } = req.params;
+        const stanza = await Stanza.findOne({ hash });
+        if (!stanza) {
+            return res.status(404).json({ error: 'Stanza non trovata' });
+        }
+
+        const { peopleIds } = req.body;
+        if (!Array.isArray(peopleIds) || peopleIds.length === 0) {
+            return res.status(400).json({ error: 'Nessuna persona fornita' });
+        }
+
+        if (peopleIds.includes(user._id)) {
+            return res.status(400).json({ error: 'Non puoi rimuovere te stesso dalla stanza' });
+        }
+
+        await Stanza.updateOne({ hash }, { $pull: { people: { $in: peopleIds } } });
+
+        const updatedStanza = await Stanza.findOne({ hash }).populate('people');
+
+        res.status(200).json(updatedStanza);
+    } catch (error) {
+        console.error('Errore durante la rimozione delle persone dalla stanza:', error);
+        res.status(500).json({ error: 'Errore durante la rimozione delle persone dalla stanza' });
+    }
+};
+
+
 exports.deleteRoom = async (req, res) => {
     try {
         // Ottieni il token JWT dal cookie della richiesta
