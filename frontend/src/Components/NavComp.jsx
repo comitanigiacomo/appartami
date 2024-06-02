@@ -20,23 +20,25 @@ export function NavComp({ isLoggedIn, handleLogout }) {
   return (
     <>
       <Navbar sticky="top" bg="dark" data-bs-theme="dark">
-        <Container>
-          <img style={{ borderRadius: '50%', marginRight: '20px' }} src={image} alt="logo" />
-          <Navbar.Brand href="#/">Appartami</Navbar.Brand>
+        <Container className="d-flex justify-content-between align-items-center"> {/* Aggiunto justify-content-between e align-items-center */}
+          <div>
+            <img style={{ borderRadius: '50%', marginRight: '20px' }} src={image} alt="logo" />
+            <Navbar.Brand href="#/">Appartami</Navbar.Brand>
+          </div>
           <Nav>
             {isLoggedIn ? (
               <>
-                <Button className='ml-3' variant="outline-light" onClick={handleLogout}>Sign out</Button>{' '}
                 <Nav.Link href="#userProfile">My Profile</Nav.Link>
                 <Button className='ml-3' variant="outline-light" onClick={handleShow}>Le mie stanze</Button>{' '}
+                <Button variant="outline-light" onClick={handleLogout}>Sign out</Button>{' '}
               </>
             ) : (
               <>
-                <Button className='mr-3' href="#signIn" variant="primary">
+                <Button href="#signIn" variant="primary">
                   <FontAwesomeIcon icon={faUser} /> {/* Usa l'icona importata */}
                   Sign in
                 </Button>{' '}
-                <Button className='ml-3' href="#signUp" variant="outline-light">Sign up</Button>{' '}
+                <Button href="#signUp" variant="outline-light">Sign up</Button>{' '}
               </>
             )}
           </Nav>
