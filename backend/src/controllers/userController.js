@@ -201,12 +201,14 @@ exports.createStanza = async (req, res) => {
     const hashids = new Hashids('appartami', 8);
     const hash = hashids.encode(Date.now());
 
+    const { name } = req.body;
     const apartments = [];
     const people = [];
 
     // Crea una nuova stanza
     const newStanza = new Stanza({
       hash,// Utilizziamo il codice come hash
+      name,
       apartments,
       people,
       owner: user._id
@@ -344,13 +346,13 @@ exports.getUserStanze = async (req, res) => {
       return res.status(404).json({ error: 'Utente non trovato' });
     }
 
-    // Trova tutte le stanze in cui l'utente è owner o membro
+    // Trova tutte le stanze in cui l'utente è owner o membro e popola il campo 'owner' con i dettagli dell'utente
     const stanze = await Stanza.find({
       $or: [
         { owner: user._id },
         { people: user._id }
       ]
-    });
+    }) // Popola il campo 'name' della stanza
 
     // Restituisci l'elenco delle stanze trovate
     res.status(200).json(stanze);
@@ -359,6 +361,8 @@ exports.getUserStanze = async (req, res) => {
     res.status(500).json({ error: 'Errore durante il recupero delle stanze dell\'utente' });
   }
 };
+
+
 
 // Dato il codice di una stanza, la restituisce
 exports.getStanzaByHash = async (req, res) => {

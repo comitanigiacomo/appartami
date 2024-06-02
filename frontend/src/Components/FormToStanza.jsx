@@ -1,10 +1,11 @@
-import React from 'react';
-import { Form, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Form, Button, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
 export function FormToStanza() {
   const [roomCode, setRoomCode] = useState('');
+  const [roomName, setRoomName] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   // Dichiara navigate per il reindirizzamento
   const navigate = useNavigate();
@@ -13,14 +14,18 @@ export function FormToStanza() {
     setRoomCode(event.target.value);
   };
 
+  const handleRoomNameChange = (event) => {
+    setRoomName(event.target.value);
+  };
+
   const handleEnterCode = async () => {
     try {
       const response = await fetch(`/api/users/stanza/${roomCode}`, {
         method: 'GET',
         headers: {
-          'Content-Type':'application/json',
+          'Content-Type': 'application/json',
         },
-        credentials:'include', // Include cookies in the request
+        credentials: 'include', // Include cookies in the request
       });
 
       console.log(response);
@@ -46,8 +51,11 @@ export function FormToStanza() {
     }
   };
 
-  // Funzione per gestire la creazione della stanza
   const handleCreateRoom = async () => {
+    setShowModal(true);
+  };
+
+  const handleConfirmCreateRoom = async () => {
     try {
       // Effettua la chiamata API per creare la stanza
       const response = await fetch('/api/users/createStanza', {
@@ -55,51 +63,83 @@ export function FormToStanza() {
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ name: roomName }), // Invia il nome della stanza al backend
+        credentials: 'include',
       });
 
       // Verifica se la chiamata API ha avuto successo
       if (response.ok) {
-        console.log('fatto')
-        // Attendi 2 secondi prima del reindirizzamento
-        setTimeout(() => {
-          // Reindirizza l'utente a una nuova pagina
-          navigate('/my-room');
-        }, 2000);
+        const stanza = await response.json();
+        console.log('Stanza creata:', stanza);
+
+        // Salva i dati della stanza in localStorage (o in uno stato globale come Redux)
+        localStorage.setItem('stanza', JSON.stringify(stanza));
+
+        // Reindirizza l'utente alla pagina my-room
+        navigate('/my-room');
       } else {
         console.error('Errore durante la creazione della stanza');
       }
     } catch (error) {
       console.error('Errore durante la creazione della stanza:', error);
+    } finally {
+      setShowModal(false);
     }
   };
 
   return (
-    <Form className="w-75">
-      <Form.Group className="mb-3" controlId="formBasicRoomCode">
-        <Form.Label>Codice virtual space</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter virtual space code"
-          value={roomCode}
-          onChange={handleRoomCodeChange}
-        />
-      </Form.Group>
-      <Button
-        variant="primary"
-        type="button"
-        className="m-2 btn-lg"
-        onClick={handleEnterCode}
-      >
-        Enter code
-      </Button>
-      <Button
-        variant="secondary"
-        className="m-2 btn-lg"
-        onClick={handleCreateRoom}
-      >
-        Create new virtual space
-      </Button>
-    </Form>
+    <>
+      <Form className="w-75">
+        <Form.Group className="mb-3" controlId="formBasicRoomCode">
+          <Form.Label>Codice virtual space</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter virtual space code"
+            value={roomCode}
+            onChange={handleRoomCodeChange}
+          />
+        </Form.Group>
+        <Button
+          variant="primary"
+          type="button"
+          className="m-2 btn-lg"
+          onClick={handleEnterCode}
+        >
+          Enter code
+        </Button>
+        <Button
+          variant="secondary"
+          className="m-2 btn-lg"
+          onClick={handleCreateRoom}
+        >
+          Create new virtual space
+        </Button>
+      </Form>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Inserisci il nome della stanza</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group controlId="formRoomName">
+            <Form.Label>Nome della stanza</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter room name"
+              value={roomName}
+              onChange={handleRoomNameChange}
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Annulla
+          </Button>
+          <Button variant="primary" onClick={handleConfirmCreateRoom}>
+            Conferma
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }
-

@@ -35,7 +35,7 @@ export function RoomsList() {
                 href={`#link${room.hash}`}
                 onClick={() => setActiveRoom(`#link${room.hash}`)}
               >
-                {room.hash}
+                {room.name}
               </ListGroup.Item>
             ))}
           </ListGroup>

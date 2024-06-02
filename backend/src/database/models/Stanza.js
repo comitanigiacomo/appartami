@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const stanzaSchema = new Schema({
     hash: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
     apartments: [{ type: Schema.Types.ObjectId, ref: 'Apartment' }],
     people: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
