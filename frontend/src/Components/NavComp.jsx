@@ -6,8 +6,17 @@ import Button from 'react-bootstrap/Button';
 import image from '../images/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons'; 
+import Modal from 'react-bootstrap/Modal';
+import { RoomsList } from './RoomsList';
+import { useState } from 'react';
 
 export function NavComp({ isLoggedIn, handleLogout }) {
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
+
   return (
     <>
       <Navbar sticky="top" bg="dark" data-bs-theme="dark">
@@ -19,6 +28,7 @@ export function NavComp({ isLoggedIn, handleLogout }) {
               <>
                 <Button className='ml-3' variant="outline-light" onClick={handleLogout}>Sign out</Button>{' '}
                 <Nav.Link href="#userProfile">My Profile</Nav.Link>
+                <Button className='ml-3' variant="outline-light" onClick={handleShow}>Le mie stanze</Button>{' '}
               </>
             ) : (
               <>
@@ -32,6 +42,16 @@ export function NavComp({ isLoggedIn, handleLogout }) {
           </Nav>
         </Container>
       </Navbar>
+
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Personal rooms</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <RoomsList />
+        </Modal.Body>
+      </Modal>
+
     </>
   );
 }
