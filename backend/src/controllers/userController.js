@@ -450,5 +450,38 @@ exports.searchUsersByUsername = async (req, res) => {
   }
 };
 
+// Middleware per estrarre l'utente dal token JWT
+exports.extractUserFromToken = async (req, res, next) => {
+  try {
+    // Ottieni il token JWT dal cookie della richiesta
+    const token = req.cookies.token;
+
+    // Se il token non è presente, restituisci un errore di autenticazione
+    if (!token) {
+      return res.status(401).json({ error: 'Token non fornito' });
+    }
+
+    // Estrai l'username dal payload del token JWT
+    const decodedToken = jwt.verify(token, 'appartami');
+    const username = decodedToken.username;
+
+    // Cerca l'utente nel database tramite l'username
+    const user = await User.findOne({ username });
+
+    // Se l'utente non è stato trovato, restituisci un errore di autenticazione
+    if (!user) {
+      return res.status(404).json({ error: 'Utente non trovato' });
+    }
+
+    // Aggiungi l'utente alla richiesta in modo che possa essere utilizzato nei successivi middleware o endpoint
+    req.user = user;
+
+    // Passa alla funzione middleware successiva
+    next();
+  } catch (error) {
+    console.error('Errore durante l\'estrazione dell\'utente dal token JWT:', error);
+    res.status(500).json({ error: 'Errore durante l\'estrazione dell\'utente dal token JWT' });
+  }
+};
 
 

@@ -23,5 +23,8 @@ router.get('/apartment/:apartmentId/people', stanzaController.getPeopleFromApart
 //Route per rimuovere persone dalla stanza
 router.delete('/:hash/removePeople', stanzaController.removePeopleFromRoom);
 
+// Route per ottenere l'owner di una stanza dato l'hash della stanza
+router.get('/:hash/owner', stanzaController.getRoomOwner);
+
 
 module.exports = router;

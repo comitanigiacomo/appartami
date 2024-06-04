@@ -238,11 +238,6 @@ exports.getRoomParticipants = async (req, res) => {
             return res.status(404).json({ error: 'Stanza non trovata' });
         }
 
-        // Verifica se l'utente è il proprietario della stanza
-        if (!stanza.owner.equals(user._id)) {
-            return res.status(403).json({ error: 'Accesso non autorizzato' });
-        }
-
         // Restituisci i partecipanti della stanza
         res.status(200).json({ participants: stanza.people });
     } catch (error) {
@@ -347,4 +342,30 @@ exports.getPeopleFromApartment = async (req, res) => {
     }
 };
 
+exports.getRoomOwner = async (req, res) => {
+    try {
+      // Ottieni l'hash della stanza dalla richiesta
+      const { hash } = req.params;
+  
+      // Trova la stanza nel database tramite l'hash
+      const stanza = await Stanza.findOne({ hash });
+  
+      if (!stanza) {
+        return res.status(404).json({ error: 'Stanza non trovata' });
+      }
+  
+      // Trova l'owner della stanza
+      const owner = await User.findById(stanza.owner);
+  
+      if (!owner) {
+        return res.status(404).json({ error: 'Proprietario della stanza non trovato' });
+      }
+  
+      // Restituisci l'owner della stanza
+      res.status(200).json(owner);
+    } catch (error) {
+      console.error('Errore durante il recupero del proprietario della stanza:', error);
+      res.status(500).json({ error: 'Errore durante il recupero del proprietario della stanza' });
+    }
+  };
 

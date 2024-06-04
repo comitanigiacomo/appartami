@@ -278,6 +278,7 @@ export function PersonalRoom() {
       <p><strong>Proprietario:</strong> {stanza.owner.username}</p>
       {showAlert && <Alert variant='success'>{alertMessage}</Alert>}
       <ControlRoom
+        owner={stanza.owner}
         onAddApartment={() => setShowAddApartmentModal(true)}
         onAddUser={() => setShowUserSearchModal(true)}
         onDeleteRoom={deleteRoom}

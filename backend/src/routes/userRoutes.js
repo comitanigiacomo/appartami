@@ -41,4 +41,7 @@ router.get('/stanza/:hash', UserController.getStanzaByHash);
 // Route per cercare gli utenti in base allo username 
 router.get('/search-users', UserController.searchUsersByUsername);
 
+// Route per ottenere l'utente corrente
+router.get('/user/me', UserController.getUserByUsername);
+
 module.exports = router;
