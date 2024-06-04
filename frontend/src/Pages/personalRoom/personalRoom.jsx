@@ -286,6 +286,7 @@ export function PersonalRoom() {
       />
       <Apartments 
         apartments={stanza.apartments} 
+        owner={stanza.owner}
         roomHash={stanza.hash} 
         onDeleteApartment={handleDeleteApartment} 
         onViewApartment={handleViewApartment}
