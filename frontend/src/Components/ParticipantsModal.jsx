@@ -3,8 +3,12 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 export function ParticipantsModal({ show, handleClose, participants, handleRemoveParticipant }) {
+  const loggedInUserId = localStorage.getItem('token');
+
   const handleRemove = (participantId) => {
-    handleRemoveParticipant(participantId);
+    if (participantId !== loggedInUserId) {
+      handleRemoveParticipant(participantId);
+    }
   };
 
   return (
@@ -17,7 +21,11 @@ export function ParticipantsModal({ show, handleClose, participants, handleRemov
           {participants.map(participant => (
             <li key={participant._id} style={{ marginBottom: '10px', textAlign: 'center' }}>
               <span style={{ marginRight: '10px' }}>{participant.username}</span>
-              <Button variant="danger" size="sm" onClick={() => handleRemove(participant._id)}>Elimina</Button>
+              {participant._id !== participants[0]._id && participant._id !== loggedInUserId ? (
+                <Button variant="danger" size="sm" onClick={() => handleRemove(participant._id)}>
+                  Elimina
+                </Button>
+              ) : null}
             </li>
           ))}
         </ul>
