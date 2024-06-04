@@ -21,7 +21,7 @@ export function ParticipantsModal({ show, handleClose, participants, handleRemov
           {participants.map(participant => (
             <li key={participant._id} style={{ marginBottom: '10px', textAlign: 'center' }}>
               <span style={{ marginRight: '10px' }}>{participant.username}</span>
-              {participant._id !== participants[0]._id && participant._id !== loggedInUserId ? (
+              {participant._id !== participants[0]._id ? (
                 <Button variant="danger" size="sm" onClick={() => handleRemove(participant._id)}>
                   Elimina
                 </Button>

@@ -246,7 +246,8 @@ export function PersonalRoom() {
   };
   
 
-  const handleViewApartment = useCallback(async (apartmentId) => {    try {
+  const handleViewApartment = useCallback(async (apartmentId) => {    
+    try {
       const token = localStorage.getItem('token');
       const response = await fetch(`/api/stanza/apartment/${apartmentId}/people`, {
         method: 'GET',
@@ -300,6 +301,7 @@ export function PersonalRoom() {
         setSearchQuery={setSearchQuery}
         searchResults={searchResults}
         handleAddPeopleToRoom={handleAddPeopleToRoom}
+        currentParticipants={stanza.people.map(person => person._id)} // Pass current participants' IDs
       />
       <ParticipantsModal
         show={showParticipantsModal}
